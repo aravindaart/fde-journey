@@ -18,3 +18,6 @@
 - 2026-05-23: input() pauses program and waits for user to type. Returns a string.
 - 2026-05-23: \n in print() creates a blank line. Small but improves readability.
 - 2026-05-23: LLMs don't have real-time data. They admit it and redirect. This is the honest behaviour we'll test with evals in Week 6.
+- 2026-05-24: API field names should describe what the data is, not just that it exists. question/answer beats message/message. Future-you debugging at 2am will thank present-you.
+- 2026-05-24: Be strict in what you accept. Reject contract violations loudly. Silent conversion hides bugs in the caller's code.
+- 2026-05-24: Server-side validation is non-negotiable. Frontend validates for UX, backend validates for correctness. Never trust the client — not your own frontend, not anyone else's. Strict contracts catch bugs early. Lenient contracts hide them.
