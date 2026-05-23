@@ -1,0 +1,40 @@
+# Week 1 — Python Foundations
+
+## Scripts
+
+### script1_variables.py
+Variables and type conversion.
+**Key question:** Why do we need `str()` when concatenating an integer with a string?
+**Answer:** Python is strict about types unlike JavaScript. Adding string + int 
+throws a TypeError. `str()` explicitly converts the integer to a string first.
+
+### script2_list.py
+Lists and for loops.
+**Key question:** What does `for skill in skills:` mean in plain English?
+**Answer:** For each item in the list, temporarily call it `skill` and run 
+the indented block with it. Python gives you the value directly, not the index.
+
+### script3_function.py
+Functions and return values.
+**Key question:** What is the difference between `return` and `print`?
+**Answer:** `print` shows something on screen but gives nothing back to your 
+code. `return` gives a value back to the caller so it can be stored and reused.
+If a function uses `print` instead of `return`, the caller gets `None`.
+
+### script4_dictionary.py
+Dictionaries and tuple unpacking.
+**Key question:** What does `.items()` do and why two variables in the for loop?
+**Answer:** `.items()` returns each entry as a key-value pair. Writing 
+`for key, value in` automatically unpacks that pair into two variables — 
+this is called tuple unpacking. We need `str(value)` because `years_experience` 
+is an integer and Python won't concatenate string + int without conversion.
+
+## JS → Python concepts learned
+
+| JavaScript | Python | Note |
+|------------|--------|------|
+| Array `[]` | List `[]` | Same syntax, different name |
+| Object `{}` | Dictionary `{}` | Same concept |
+| No strict types | Strict types | Python throws TypeError, JS silently coerces |
+| `Object.entries()` | `.items()` | Python's tuple unpacking is cleaner |
+| Any function result | `return` | Must explicitly return to get value back |
