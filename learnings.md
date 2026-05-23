@@ -14,3 +14,7 @@
 - 2026-05-23: HTTP requests - response.text is raw string. response.json() 
   converts it to a Python dictionary you can navigate.
 - 2026-05-23: APIs often wrap single items in a list. Use [0] to get first item.
+- 2026-05-23: load_dotenv() loads .env file into environment variables.
+- 2026-05-23: Never hardcode API keys. os.getenv() reads from environment.
+- 2026-05-23: LLM API responses wrap content in a list. [0] gets the text block.
+- 2026-05-23: Use Haiku for dev/learning. Sonnet for production quality.

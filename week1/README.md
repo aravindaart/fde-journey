@@ -52,6 +52,22 @@ like `data["current_condition"]`. Without it you just have a string.
 **Answer:** APIs often wrap single items inside a list. `[0]` gets the first 
 item from that list — which is the dictionary containing the actual weather data.
 
+### script7_claude.py
+First Claude API call using the Anthropic SDK.
+**Key question:** What does `load_dotenv()` do?
+**Answer:** Reads the `.env` file and loads its values into environment 
+variables so your code can access them via `os.getenv()`.
+
+**Key question:** Why not hardcode the API key directly in the script?
+**Answer:** Hardcoded keys get committed to Git and become public. Anyone 
+can find them and use your credits. Environment variables keep secrets out 
+of source code.
+
+**Key question:** Why `message.content[0].text`?
+**Answer:** Claude wraps responses in a list because a response can contain 
+multiple content blocks (text, images, tool calls). `[0]` gets the first 
+block which is always the text in simple calls.
+
 ## JS → Python concepts learned
 
 | JavaScript | Python | Note |
