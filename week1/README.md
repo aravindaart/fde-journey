@@ -68,6 +68,21 @@ of source code.
 multiple content blocks (text, images, tool calls). `[0]` gets the first 
 block which is always the text in simple calls.
 
+### script8_ask.py
+Interactive CLI — user types a question, Claude answers.
+**Key question:** What does `input()` do?
+**Answer:** Pauses the program and waits for the user to type something 
+in the terminal. Returns what they typed as a string which gets passed 
+directly to Claude as the question.
+
+**Key question:** What is `\n` in the print statement?
+**Answer:** A newline character that creates a blank line between the 
+label and Claude's response. Makes terminal output easier to read.
+
+**Key insight:** When asked for real-time data (flights, prices, live scores) 
+Claude admits it doesn't know and redirects. This honest behaviour is exactly 
+what we'll measure with eval suites in Week 6.
+
 ## JS → Python concepts learned
 
 | JavaScript | Python | Note |
