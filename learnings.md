@@ -11,3 +11,6 @@
 - 2026-05-23: "r" = read mode. "w" = write. "a" = append.
 - 2026-05-23: f-strings are cleaner than + concatenation. {variable:.2f} = 2 decimal places.
 - 2026-05-23: Python f-string equivalent of JS toFixed() is :.2f inside {}.
+- 2026-05-23: HTTP requests - response.text is raw string. response.json() 
+  converts it to a Python dictionary you can navigate.
+- 2026-05-23: APIs often wrap single items in a list. Use [0] to get first item.

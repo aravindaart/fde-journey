@@ -41,6 +41,17 @@ have to manually call `file.close()`.
 directly inside `{}`. Cleaner than concatenation with `+`. 
 `f"${price:.2f}"` is Python's equivalent of JS `toFixed(2)`.
 
+### script6_http.py
+HTTP requests and API responses.
+**Key question:** What is `response.json()` doing?
+**Answer:** The API returns raw text over HTTP. `response.json()` parses that 
+raw string into a Python dictionary so your code can navigate it with keys 
+like `data["current_condition"]`. Without it you just have a string.
+
+**Key question:** Why `data["current_condition"][0]`?
+**Answer:** APIs often wrap single items inside a list. `[0]` gets the first 
+item from that list — which is the dictionary containing the actual weather data.
+
 ## JS → Python concepts learned
 
 | JavaScript | Python | Note |
@@ -52,3 +63,5 @@ directly inside `{}`. Cleaner than concatenation with `+`.
 | Any function result | `return` | Must explicitly return to get value back |
 | `toFixed(2)` | `f"{value:.2f}"` | Format float to 2 decimal places |
 | template literals `` ` `` | f-strings `f""` | Same concept, different syntax |
+| `fetch(url).then(r => r.json())` | `requests.get(url).json()` | HTTP GET + parse response |
+| `array[0]` | `list[0]` | Same — zero-indexed |
