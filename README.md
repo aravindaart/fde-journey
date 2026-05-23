@@ -14,8 +14,8 @@ zero hands-on AI experience, this roadmap is for you.
 
 This is NOT a tutorial collection. This is a real journey
 with real gaps, real mistakes, and real shipped projects.
-Validated against live FDE job postings at OpenAI, Arize AI,
-and Google Cloud Singapore (May 2026).
+Validated against live FDE job postings at OpenAI, Anthropic,
+Arize AI, Google Cloud, Singtel, and Taxbit Singapore (May 2026).
 
 ---
 
@@ -35,10 +35,10 @@ If that sounds like you — follow along.
 
 | Phase | Weeks | Focus | Key Output |
 |-------|-------|-------|------------|
-| 1 — Foundations | 1–3 | Python · FastAPI · First LLM API call | Deployed "Hello Agent" at a public URL |
-| 2 — Applied AI | 4–6 | RAG · Tool use · Evals · Docker basics | RAG demo + eval blog post + Dockerised app |
-| 3 — Flagship | 7–9 | Full AI agent · Real users · GCP Cloud Run | Bobasaur AI Concierge — live demo + case study |
-| 4 — Job Sprint | 10–12 | 2nd project · Resume · 20+ applications | First FDE interview booked |
+| 1 — Foundations | 1–3 | Python · Pydantic · FastAPI · First LLM API call | Deployed "Hello Agent" at a public URL |
+| 2 — Applied AI | 4–6 | RAG · LangGraph · Evals · Docker | RAG demo + eval blog post + Dockerised app |
+| 3 — Flagship | 7–9 | Full AI agent · MCP server · GCP · Observability | Bobasaur AI Concierge — live demo + case study |
+| 4 — Job Sprint | 10–12 | Engineering write-up · Resume · 20+ applications | First FDE interview booked |
 
 ---
 
@@ -49,9 +49,12 @@ loyalty assistant for a real bubble tea business.
 
 - RAG over menu, promotions, and FAQ
 - Tool calls to a loyalty stamp database
+- MCP server exposing loyalty operations
 - Sends structured orders via WhatsApp/email
 - Deployed on GCP Cloud Run
+- Langfuse observability — cost, latency, tool success rate
 - Eval suite measuring hallucination rate on menu items
+- Production hardened: tests, CI, error handling, rate limits
 
 This is not a tutorial chatbot. It serves real customers.
 
@@ -60,22 +63,27 @@ This is not a tutorial chatbot. It serves real customers.
 ## Validated skill checklist
 
 Cross-referenced against live Singapore FDE job postings
-(OpenAI, Arize AI, Google Cloud — May 2026):
+(OpenAI, Anthropic, Arize AI, Google Cloud, Singtel — May 2026):
 
 | Skill | Required by | Status |
 |-------|-------------|--------|
-| Python | All 3 postings | 🔨 Phase 1 |
-| FastAPI / Backend | Implied by all | 🔨 Phase 1 |
-| LLM API (Anthropic + OpenAI) | All 3 postings | 🔨 Phase 1 |
-| RAG architecture | All 3 explicitly | 🔨 Phase 2 |
-| Tool use / Agents | All 3 explicitly | 🔨 Phase 2 |
-| Eval engineering | All 3 explicitly | 🔨 Phase 2 |
-| Docker basics | Arize + Google | 🔨 Phase 2 |
-| GCP Cloud Run deployment | Google + Arize | 🔨 Phase 3 |
+| Python | All postings | 🔨 Phase 1 |
+| Pydantic (typed Python) | OpenAI, Anthropic | 🔨 Phase 1 Week 2 |
+| FastAPI / Backend | All postings | 🔨 Phase 1 |
+| LLM API (Anthropic + OpenAI) | All postings | 🔨 Phase 1 |
+| RAG architecture | All postings | 🔨 Phase 2 |
+| Tool use / Agents | All postings | 🔨 Phase 2 |
+| LangGraph | Market standard 2026 | 🔨 Phase 2 Week 5 |
+| Eval engineering | All postings | 🔨 Phase 2 Week 6 |
+| Docker basics | Arize + Google | 🔨 Phase 2 Week 6 |
+| MCP server | Anthropic explicitly | 🔨 Phase 3 Week 8 |
+| GCP Cloud Run | Google + Arize | 🔨 Phase 3 Week 8 |
+| Langfuse observability | OpenAI, Anthropic | 🔨 Phase 3 Week 9 |
+| Production hardening | OpenAI explicitly | 🔨 Phase 3 Week 9 |
 | TypeScript | Arize AI | ✅ Already have |
-| Customer-facing delivery | All 3 postings | ✅ Already have |
-| Project management | All 3 postings | ✅ Already have |
-| Banking / regulated domain | Addepar + Palantir | ✅ Already have |
+| Customer-facing delivery | All postings | ✅ Already have |
+| Banking / regulated domain | Addepar, Palantir | ✅ Already have |
+| Enterprise integration (SSO/OIDC) | OpenAI, Anthropic | ✅ Already have |
 
 ---
 
@@ -99,37 +107,43 @@ Cross-referenced against live Singapore FDE job postings
 |------|-------|--------|
 | Week 0 | Setup — repo, Python, API key, tools | ✅ Done |
 | Week 1 | Hello Agent — Python basics + FastAPI + deployed URL | 🔨 In progress |
-| Week 2 | Claude API deep dive + environment variables + error handling | ⏳ Upcoming |
-| Week 3 | Wrap up foundations + add OpenAI API + deploy cleanly | ⏳ Upcoming |
+| Week 2 | Claude API deep dive + Pydantic + error handling | ⏳ Upcoming |
+| Week 3 | OpenAI API + clean deployment to Render | ⏳ Upcoming |
 | Week 4 | Embeddings + vector stores + first RAG | ⏳ Upcoming |
-| Week 5 | Tool use + function calling + agents | ⏳ Upcoming |
+| Week 5 | Tool use + agents (raw) + LangGraph | ⏳ Upcoming |
 | Week 6 | Eval engineering + Docker basics | ⏳ Upcoming |
 | Week 7 | Flagship start — Bobasaur data + RAG layer | ⏳ Upcoming |
-| Week 8 | Flagship build — tool calls + WhatsApp + GCP deploy | ⏳ Upcoming |
-| Week 9 | Flagship polish — evals + case study + LinkedIn post | ⏳ Upcoming |
-| Week 10 | Second project start (MAS Banking RAG) | ⏳ Upcoming |
-| Week 11 | Second project complete + resume reframe | ⏳ Upcoming |
+| Week 8 | Flagship build — tool calls + MCP server + GCP deploy | ⏳ Upcoming |
+| Week 9 | Flagship polish — Langfuse + evals + production hardening + case study | ⏳ Upcoming |
+| Week 10 | Engineering write-up — trade-offs, eval results, what broke | ⏳ Upcoming |
+| Week 11 | Second project (MAS Banking RAG) if time + resume reframe | ⏳ Upcoming |
 | Week 12 | Job sprint — 20+ applications + referrals | ⏳ Upcoming |
 
 ---
 
 ## Target companies (Singapore + APAC)
 
-| Company | Why it fits |
-|---------|-------------|
-| **Arize AI** (top pick) | Singapore FDE role open, 2–5 yrs exp, RAG + evals focus |
-| OpenAI Singapore | High bar (5+ yrs AI), apply in Week 12 |
-| Google Cloud FDE | Actively hiring Singapore FDE II–IV right now |
-| Addepar Singapore | Financial services FDE — banking domain match |
-| Palantir Singapore | Original FDE company, likes domain experts |
-| BCG X Singapore | Hires consultant-engineers, strong culture fit |
+| Tier | Company | Why it fits |
+|------|---------|-------------|
+| A | Singtel FDE | Local enterprise, consulting background converts directly |
+| A | **Arize AI** ⭐ | Singapore FDE open, 2–5 yrs exp, RAG + evals exact match |
+| A | Databricks SG | Enterprise AI, strong fit |
+| A | Genesys SG | Enterprise CX/AI, less competitive |
+| B | ByteDance / BytePlus | High FDE volume in SG |
+| B | Cohere SG | Agent-focused, matches Concierge story |
+| B | BCG X Singapore | Hires consultant-engineers |
+| B | Addepar SG | Financial services FDE, banking domain match |
+| C | OpenAI Singapore | High bar (5+ yrs LLM), apply for interview reps |
+| C | Anthropic SG | High bar, founding-team energy |
+| C | Palantir Singapore | Original FDE company |
 
 ---
 
 ## Stack
 
-Python · FastAPI · Anthropic Claude API · OpenAI API
-Docker · GCP Cloud Run · ChromaDB · GitHub · VS Code
+Python · Pydantic · FastAPI · Anthropic Claude API · OpenAI API
+LangGraph · ChromaDB · Docker · GCP Cloud Run · Langfuse · MCP
+GitHub · VS Code
 
 ---
 
@@ -138,13 +152,13 @@ Docker · GCP Cloud Run · ChromaDB · GitHub · VS Code
 ```
 fde-journey/
 ├── week1/          # Python warmups + Hello Agent
-├── week2/          # Claude API scripts
-├── week3/          # OpenAI + clean deployment
+├── week2/          # Claude API + Pydantic
+├── week3/          # OpenAI + Render deployment
 ├── week4/          # RAG demo
-├── week5/          # Tool use / agents
+├── week5/          # Tool use + LangGraph agents
 ├── week6/          # Evals + Docker
 ├── week7-9/        # Bobasaur AI Concierge (flagship)
-├── week10-11/      # Second project
+├── week10-11/      # Engineering write-up + second project
 ├── learnings.md    # Real unfiltered weekly notes
 ├── parking-lot.md  # Deferred ideas
 └── README.md       # This file
