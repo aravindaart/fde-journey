@@ -29,6 +29,18 @@ Dictionaries and tuple unpacking.
 this is called tuple unpacking. We need `str(value)` because `years_experience` 
 is an integer and Python won't concatenate string + int without conversion.
 
+### script5_json.py
+JSON file handling and f-strings.
+**Key question:** What does `with open("file.json", "r") as file:` do?
+**Answer:** Opens the file in read-only mode and automatically closes it when 
+the indented block finishes — even if the code crashes. Without `with` you'd 
+have to manually call `file.close()`.
+
+**Key question:** What is an f-string?
+**Answer:** A Python string prefixed with `f` that lets you embed variables 
+directly inside `{}`. Cleaner than concatenation with `+`. 
+`f"${price:.2f}"` is Python's equivalent of JS `toFixed(2)`.
+
 ## JS → Python concepts learned
 
 | JavaScript | Python | Note |
@@ -38,3 +50,5 @@ is an integer and Python won't concatenate string + int without conversion.
 | No strict types | Strict types | Python throws TypeError, JS silently coerces |
 | `Object.entries()` | `.items()` | Python's tuple unpacking is cleaner |
 | Any function result | `return` | Must explicitly return to get value back |
+| `toFixed(2)` | `f"{value:.2f}"` | Format float to 2 decimal places |
+| template literals `` ` `` | f-strings `f""` | Same concept, different syntax |

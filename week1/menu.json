@@ -1,0 +1,8 @@
+{
+    "shop": "The Daily Cup",
+    "items": [
+        {"name": "Brown Sugar Milk Tea", "price": 6.50, "calories": 320},
+        {"name": "Taro Milk Tea", "price": 5.50, "calories": 280},
+        {"name": "Matcha Latte", "price": 6.00, "calories": 250}
+    ]
+}
