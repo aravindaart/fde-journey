@@ -170,7 +170,7 @@ fde-journey/
 
 | Project | URL | Stack |
 |---------|-----|-------|
-| Week 1 — Hello Agent | https://fde-journey-week1.onrender.com | FastAPI · Pydantic · Claude Haiku |
+| Week 1 — Hello Agent | https://fde-journey-week1.onrender.com | FastAPI · Pydantic · Anthropic API |
 
 Test it:
 ```bash
