@@ -59,3 +59,7 @@
 - 2026-05-24: POSIX convention: text files should end with a newline character. `\ No newline at end of file` in git diff = missing trailing newline. Fix by hitting Enter at file end. VS Code setting: "Files: Insert Final Newline" → true.
 - 2026-05-24: Markdown consistency matters in docs — inline code (functions, identifiers, paths, keyword args) goes in backticks. Inconsistent formatting signals carelessness to anyone reading the repo. Match the style already established in the file.
 - 2026-05-23: Week 1 complete. 9 scripts. FastAPI + Pydantic + Claude API end to end. Request lifecycle understood end to end. Ahead of schedule — Week 2 starts Monday.
+- 2026-05-24: pip freeze dumps the entire environment. requirements.txt should only list direct imports — pip installs their sub-dependencies automatically.
+- 2026-05-24: --host 0.0.0.0 binds to all network interfaces, required for cloud containers. Default 127.0.0.1 only accepts connections from the same machine — unreachable from outside.
+- 2026-05-24: $PORT reads the port the cloud platform injects at runtime. Hardcoding a port number breaks deploys because the platform owns the port, not you.
+- 2026-05-24: Render needs Root Directory and the exact Python filename in the start command. uvicorn script9_fastapi:app means find script9_fastapi.py and load the app object from it. Wrong filename = import error at runtime, not at build time.
