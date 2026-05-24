@@ -106,7 +106,7 @@ Cross-referenced against live Singapore FDE job postings
 | Week | Theme | Status |
 |------|-------|--------|
 | Week 0 | Setup — repo, Python, API key, tools | ✅ Done |
-| Week 1 | Hello Agent — Python basics + FastAPI + deployed URL | 🔨 In progress |
+| Week 1 | Hello Agent — Python basics + FastAPI + deployed URL | ✅ Done |
 | Week 2 | Claude API deep dive + Pydantic + error handling | ⏳ Upcoming |
 | Week 3 | OpenAI API + clean deployment to Render | ⏳ Upcoming |
 | Week 4 | Embeddings + vector stores + first RAG | ⏳ Upcoming |
@@ -162,6 +162,21 @@ fde-journey/
 ├── learnings.md    # Real unfiltered weekly notes
 ├── parking-lot.md  # Deferred ideas
 └── README.md       # This file
+```
+
+---
+
+## What's live
+
+| Project | URL | Stack |
+|---------|-----|-------|
+| Week 1 — Hello Agent | https://fde-journey-week1.onrender.com | FastAPI · Pydantic · Claude Haiku |
+
+Test it:
+```bash
+curl -X POST https://fde-journey-week1.onrender.com/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is an FDE?"}'
 ```
 
 ---
