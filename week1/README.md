@@ -83,6 +83,24 @@ label and Claude's response. Makes terminal output easier to read.
 Claude admits it doesn't know and redirects. This honest behaviour is exactly 
 what we'll measure with eval suites in Week 6.
 
+### script9_fastapi.py
+Wraps the Claude question-answering logic from script8 in a real HTTP API
+using FastAPI and Pydantic. First service in this repo that anything other
+than the terminal can call.
+
+**Key question:** What does `@app.post("/ask")` actually do?
+**Answer:** A decorator is a function that wraps another function to add behaviour. `@app.post("/ask")` registers the function below it as the handler for POST requests to /ask — FastAPI's internal route table gets updated automatically. The `response_model=AskResponse` argument also tells FastAPI to validate the return value against the `AskResponse` model before sending it back, so validation runs on both edges of the endpoint.
+
+**Key question:** Why is `client = anthropic.Client(...)` outside the
+function and not inside?
+**Answer:** Module-level code runs once when uvicorn imports the file. Function-body code runs on every request. The Anthropic client is reusable — its construction sets up connection pools, TLS, and retry logic. Building it once at startup and reusing it for every request is the right pattern. Building it inside the function would re-initialise all that state on every call, which gets expensive fast at any real traffic level.
+
+**Key question:** What does `Field(..., min_length=1, max_length=1000)`
+do, and why the three dots?
+**Answer:** The `...` (called `Ellipsis`) means "this field is required — no default value." If a real default were there instead, the field would become optional. `min_length=1` rejects empty strings before they reach Claude — no point paying for an empty API call. `max_length=1000` rejects suspiciously long input — protects against runaway costs and abuse. All four rules are enforced before your function ever runs.
+
+**Key insight:** The auto-generated `/docs` page is built from the same Pydantic models that validate requests at runtime. Code, validation, and docs all come from one source — they can't drift apart because they can't disagree. This is the pattern OpenAI and Anthropic use for their own APIs. It's why FDE job descriptions name Pydantic specifically.
+
 ## JS → Python concepts learned
 
 | JavaScript | Python | Note |
@@ -95,4 +113,6 @@ what we'll measure with eval suites in Week 6.
 | `toFixed(2)` | `f"{value:.2f}"` | Format float to 2 decimal places |
 | template literals `` ` `` | f-strings `f""` | Same concept, different syntax |
 | `fetch(url).then(r => r.json())` | `requests.get(url).json()` | HTTP GET + parse response |
-| `array[0]` | `list[0]` | Same — zero-indexed |
+| `app.post('/x', fn)` (Express) | `@app.post("/x")` decorator (FastAPI) | Decorator syntax keeps the route declaration next to the handler function |
+| Manual JSON validation with Joi/Zod | `class X(BaseModel)` declaration | Pydantic validates request and response automatically from the type declaration |
+| `new Anthropic(...)` | `anthropic.Client(...)` | Python has no `new` keyword — calling the class IS the constructor |
