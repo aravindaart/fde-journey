@@ -99,6 +99,9 @@ function and not inside?
 do, and why the three dots?
 **Answer:** The `...` (called `Ellipsis`) means "this field is required — no default value." If a real default were there instead, the field would become optional. `min_length=1` rejects empty strings before they reach Claude — no point paying for an empty API call. `max_length=1000` rejects suspiciously long input — protects against runaway costs and abuse. All four rules are enforced before your function ever runs.
 
+**Key question:** What happens when the Claude API is down?
+**Answer:** The try/except wraps the API call and raises HTTPException(status_code=503) — caller gets a clean JSON error body, not a Python stack trace. 503 = upstream dependency unavailable.
+
 **Key insight:** The auto-generated `/docs` page is built from the same Pydantic models that validate requests at runtime. Code, validation, and docs all come from one source — they can't drift apart because they can't disagree. This is the pattern OpenAI and Anthropic use for their own APIs. It's why FDE job descriptions name Pydantic specifically.
 
 ## JS → Python concepts learned

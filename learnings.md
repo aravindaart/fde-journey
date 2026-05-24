@@ -63,3 +63,6 @@
 - 2026-05-24: --host 0.0.0.0 binds to all network interfaces, required for cloud containers. Default 127.0.0.1 only accepts connections from the same machine — unreachable from outside.
 - 2026-05-24: $PORT reads the port the cloud platform injects at runtime. Hardcoding a port number breaks deploys because the platform owns the port, not you.
 - 2026-05-24: Render needs Root Directory and the exact Python filename in the start command. uvicorn script9_fastapi:app means find script9_fastapi.py and load the app object from it. Wrong filename = import error at runtime, not at build time.
+- 2026-05-24: stop_reason lives on the message object directly, not inside message.usage. message.usage holds token counts only. Mixing them up is a runtime bug Pydantic will catch but the error message won't make it obvious.
+- 2026-05-24: 503 Service Unavailable is the right status for upstream dependency failures. 422 is for validation failures, 500 is for unhandled crashes, 503 is for when your service can't reach something it depends on.
+- 2026-05-24: Catching bare Exception and raising HTTPException converts raw Python stack traces into clean JSON error responses. Stack traces leaking to callers expose internals and signal amateur production code.
