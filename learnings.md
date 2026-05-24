@@ -66,3 +66,7 @@
 - 2026-05-24: stop_reason lives on the message object directly, not inside message.usage. message.usage holds token counts only. Mixing them up is a runtime bug Pydantic will catch but the error message won't make it obvious.
 - 2026-05-24: 503 Service Unavailable is the right status for upstream dependency failures. 422 is for validation failures, 500 is for unhandled crashes, 503 is for when your service can't reach something it depends on.
 - 2026-05-24: Catching bare Exception and raising HTTPException converts raw Python stack traces into clean JSON error responses. Stack traces leaking to callers expose internals and signal amateur production code.
+- 2026-05-24: Workflows use hardcoded sequences — the developer decides the flow. Agents use model-driven decision-making — the LLM decides what to do next. The distinction is who controls the flow, not how many steps there are.
+- 2026-05-24: Augmented LLM = base LLM plus retrieval, tools, and memory. Workflows and agents are higher-level patterns built on top of this augmented base.
+- 2026-05-24: Five workflow patterns: prompt chaining (sequential), parallelisation (concurrent), routing (conditional), orchestrator-subagent (delegate and consolidate), evaluator-optimiser (generate then critique in a loop).
+- 2026-05-24: Default to the simplest solution. Single LLM call with retrieval is enough for most apps. Agents add latency and cost — only justified when the task needs model-driven decision-making that can't be hardcoded.
