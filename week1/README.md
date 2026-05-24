@@ -116,3 +116,15 @@ do, and why the three dots?
 | `app.post('/x', fn)` (Express) | `@app.post("/x")` decorator (FastAPI) | Decorator syntax keeps the route declaration next to the handler function |
 | Manual JSON validation with Joi/Zod | `class X(BaseModel)` declaration | Pydantic validates request and response automatically from the type declaration |
 | `new Anthropic(...)` | `anthropic.Client(...)` | Python has no `new` keyword — calling the class IS the constructor |
+
+
+## Deployment
+
+Live on Render: https://fde-journey-week1.onrender.com
+
+Test with:
+```bash
+curl -X POST https://fde-journey-week1.onrender.com/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is FastAPI?"}'
+```
