@@ -75,3 +75,10 @@
 - 2026-05-25: list[MessageBody] in a Pydantic model means a list of validated objects. The SDK expects dicts — convert with a list comprehension: [m.model_dump() for m in request.messages].
 - 2026-05-25: System prompt belongs server-side always. Client sends messages only. Loading from env with a hardcoded fallback lets ops override without a code deploy.
 - 2026-05-25: List comprehension syntax: [expression for item in iterable]. Transforms every item in one line.
+- 2026-05-25: yield pauses a function and sends one value to the caller, then resumes from that line next time. A function with yield is a generator. return ends the function entirely.
+- 2026-05-25: Calling a generator function does not run the function body. It returns a generator object. The body runs when something iterates the object — one yield at a time.
+- 2026-05-25: client.messages.stream() needs a with block because it opens a network connection. with guarantees the connection closes even if an exception is thrown mid-stream.
+- 2026-05-25: stream.text_stream is a generator that yields plain text chunks. It is not the same shape as a completed message response — no .content, no .usage, no .stop_reason.
+- 2026-05-25: StreamingResponse wraps a generator. FastAPI pulls one chunk at a time and sends it to the client immediately. The client receives tokens as they arrive, not after the full response is ready.
+- 2026-05-25: Streaming endpoints do not use response_model. response_model validates a complete object — streaming has no complete object to validate.
+- 2026-05-25: The try/except on a streaming endpoint only catches errors during generator creation, not during iteration. The actual Claude API call happens when FastAPI iterates the generator — after the return statement. Errors mid-stream are a production hardening problem.
