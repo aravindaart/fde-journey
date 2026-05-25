@@ -28,7 +28,7 @@ history and sends the full `messages` array every time. The server reads it, pas
 to Claude, and returns the response. State lives in the client, not the server.
 
 
------
+---
 
 ## How to run
 
@@ -92,7 +92,7 @@ a crash mid-generator leaks the connection.
 against a Pydantic model before sending it. Streaming has no complete object —
 chunks arrive and are forwarded incrementally. There is nothing to validate upfront.
 
------
+---
 
 ## How to run
 
