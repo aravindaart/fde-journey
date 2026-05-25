@@ -70,3 +70,8 @@
 - 2026-05-24: Augmented LLM = base LLM plus retrieval, tools, and memory. Workflows and agents are higher-level patterns built on top of this augmented base.
 - 2026-05-24: Five workflow patterns: prompt chaining (sequential), parallelisation (concurrent), routing (conditional), orchestrator-subagent (delegate and consolidate), evaluator-optimiser (generate then critique in a loop).
 - 2026-05-24: Default to the simplest solution. Single LLM call with retrieval is enough for most apps. Agents add latency and cost — only justified when the task needs model-driven decision-making that can't be hardcoded.
+- 2026-05-25: The messages array is the memory. Stateless server plus client sends full history every request equals conversation with no database. This is how Anthropic and OpenAI APIs actually work.
+- 2026-05-25: Literal["user", "assistant"] constrains a field to exact values. No Field() needed — the type does the full job. Only add Field() when you need length or range constraints.
+- 2026-05-25: list[MessageBody] in a Pydantic model means a list of validated objects. The SDK expects dicts — convert with a list comprehension: [m.model_dump() for m in request.messages].
+- 2026-05-25: System prompt belongs server-side always. Client sends messages only. Loading from env with a hardcoded fallback lets ops override without a code deploy.
+- 2026-05-25: List comprehension syntax: [expression for item in iterable]. Transforms every item in one line.
