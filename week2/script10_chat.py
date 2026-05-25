@@ -9,12 +9,12 @@ from pydantic import BaseModel, Field
 
 load_dotenv()
 app = FastAPI()
-client = Anthropic(api_key=os.getenv(“ANTHROPIC_API_KEY”))
-SYSTEM_PROMPT = os.getenv(“SYSTEM_PROMPT”, “You are a helpful assistant.”)
+client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT", "You are a helpful assistant.")
 
 
 class MessageBody(BaseModel):
-    role: Literal[“user”, “assistant”]
+    role: Literal["user", "assistant"]
     content: str = Field(..., min_length=1)
 
 
@@ -26,16 +26,16 @@ class ChatResponse(BaseModel):
     answer: str = Field(..., min_length=1)
     input_tokens: int
     output_tokens: int
-    stop_reason: Literal[“end_turn”,“max_tokens”,“stop_sequence”,“tool_use”,“pause_turn”,“refusal”]
+    stop_reason: Literal["end_turn","max_tokens","stop_sequence","tool_use","pause_turn","refusal"]
 
 
-@app.post(”/chat”, response_model=ChatResponse)
+@app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest) -> ChatResponse:
     try:
         message = client.messages.create(
-            model=“claude-haiku-4-5-20251001”,
+            model="claude-haiku-4-5-20251001",
             max_tokens=1024,
-            messages=[message.model_dump() for message in request.messages],
+            messages=[msg.model_dump() for msg in request.messages],
             system=SYSTEM_PROMPT
         )
         return ChatResponse(

@@ -29,7 +29,9 @@ def stream_claude_response(question: str):
 
 
 @app.post("/ask-stream")
-def ask(request: AskRequest) -> StreamingResponse:
+def ask(request: AskRequest):
+    # Note: try/except catches errors during generator creation only.
+    # Errors mid-stream are not caught here — production hardening needed.
     try:
         message = stream_claude_response(request.question)
         return StreamingResponse(content=message, media_type="text/plain")
