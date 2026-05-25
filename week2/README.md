@@ -27,6 +27,7 @@ Typed as `Literal` in the response model so any unexpected value raises a valida
 history and sends the full `messages` array every time. The server reads it, passes it
 to Claude, and returns the response. State lives in the client, not the server.
 
+
 -----
 
 ## How to run
@@ -65,4 +66,47 @@ Validation failure (expects 422):
 curl -X POST http://localhost:8000/chat \
   -H "Content-Type: application/json" \
   -d '{"messages": [{"role": "banana", "content": "hello"}]}'
+```
+
+---
+
+### script11_streaming.py
+Extends script10 by replacing the single-response endpoint with a streaming
+response. Instead of waiting for Claude to finish generating, the server
+forwards each chunk to the client as it arrives — the same pattern used by
+Claude.ai and ChatGPT to render responses word by word.
+
+**Key question:** What is a generator and how does `yield` differ from `return`?
+**Answer:** `return` exits the function and sends one value back. `yield` pauses
+the function, sends one value back, then resumes from that line on the next
+iteration. A function containing `yield` is a generator. FastAPI iterates the
+generator chunk by chunk and sends each piece to the client immediately.
+
+**Key question:** Why does `client.messages.stream()` need a `with` block?
+**Answer:** Streaming opens a persistent network connection. `with` guarantees
+the connection closes even if an exception is thrown mid-stream. Without it,
+a crash mid-generator leaks the connection.
+
+**Key question:** Why does this endpoint have no `response_model`?
+**Answer:** `response_model` tells FastAPI to validate a complete response object
+against a Pydantic model before sending it. Streaming has no complete object —
+chunks arrive and are forwarded incrementally. There is nothing to validate upfront.
+
+-----
+
+## How to run
+
+```bash
+uvicorn script11_streaming:app --reload
+```
+
+## Test with
+
+Single turn:
+
+```bash
+curl -X POST http://localhost:8000/ask-stream \
+  -H "Content-Type: application/json" \
+  -d '{"question": "Count from 1 to 10 slowly"}' \
+  --no-buffer
 ```
