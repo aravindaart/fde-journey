@@ -70,6 +70,8 @@
 - 2026-05-24: Augmented LLM = base LLM plus retrieval, tools, and memory. Workflows and agents are higher-level patterns built on top of this augmented base.
 - 2026-05-24: Five workflow patterns: prompt chaining (sequential), parallelisation (concurrent), routing (conditional), orchestrator-subagent (delegate and consolidate), evaluator-optimiser (generate then critique in a loop).
 - 2026-05-24: Default to the simplest solution. Single LLM call with retrieval is enough for most apps. Agents add latency and cost — only justified when the task needs model-driven decision-making that can't be hardcoded.
+
+## Week 2
 - 2026-05-25: The messages array is the memory. Stateless server plus client sends full history every request equals conversation with no database. This is how Anthropic and OpenAI APIs actually work.
 - 2026-05-25: Literal["user", "assistant"] constrains a field to exact values. No Field() needed — the type does the full job. Only add Field() when you need length or range constraints.
 - 2026-05-25: list[MessageBody] in a Pydantic model means a list of validated objects. The SDK expects dicts — convert with a list comprehension: [m.model_dump() for m in request.messages].
@@ -86,3 +88,10 @@
 - 2026-05-27: Sliding window is the simplest context management strategy — keep only the last N messages, drop the oldest. Drop in pairs (user + assistant) to preserve the strict alternating order Claude requires.
 - 2026-05-27: Python slice messages[-n:] returns the last n items. If n exceeds the list length, Python returns the whole list — no error, no guard needed.
 - 2026-05-27: input_tokens in the response is a direct measure of context size. Use it to verify trimming is working — send a long history and watch the token count stay bounded.
+- 2026-05-27: tool_use is not agentic — it's a message type. The agent loop is what's agentic. Anthropic gives you the primitive; your code decides what to do with it.
+- 2026-05-27: input_schema is required for zero-argument tools - I initially created tool without input_schema which ends in rejection from claude.
+- 2026-05-27: role: "user" for tool_result, not role: "tool" — Anthropic has no tool role. OpenAI does. Different design choice, worth knowing
+- 2026-05-27: Claude tool use is a TWO-TURN flow — first the model requests a tool (`stop_reason="tool_use"`), then the backend executes the real function and sends the result back in a second API call.
+- 2026-05-27: `message.content` is a list of structured blocks (`text`, `tool_use`, etc.), not just plain text. Tool calls include metadata like `id`, `name`, and `input`.
+- 2026-05-27: Tool execution is fully controlled by the backend. The LLM can REQUEST tools, but only your server can safely execute functions, APIs, databases, or external actions.
+- 2026-05-27: Tool results must be sent back using a `tool_result` block with the original `tool_use_id`. Since the API is stateless, the second request must include the full conversation history.
