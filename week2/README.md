@@ -27,7 +27,6 @@ Typed as `Literal` in the response model so any unexpected value raises a valida
 history and sends the full `messages` array every time. The server reads it, passes it
 to Claude, and returns the response. State lives in the client, not the server.
 
-
 ---
 
 ## How to run
@@ -53,8 +52,8 @@ curl -X POST http://localhost:8000/chat \
   -H "Content-Type: application/json" \
   -d '{
     "messages": [
-      {"role": "user", "content": "My name is Aravindhan."},
-      {"role": "assistant", "content": "Nice to meet you Aravindhan!"},
+      {"role": "user", "content": "My name is Alex."},
+      {"role": "assistant", "content": "Nice to meet you Alex!"},
       {"role": "user", "content": "What is my name?"}
     ]
   }'
@@ -71,6 +70,7 @@ curl -X POST http://localhost:8000/chat \
 ---
 
 ### script11_streaming.py
+
 Extends script10 by replacing the single-response endpoint with a streaming
 response. Instead of waiting for Claude to finish generating, the server
 forwards each chunk to the client as it arrives — the same pattern used by

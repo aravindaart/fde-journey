@@ -107,7 +107,7 @@ Cross-referenced against live Singapore FDE job postings
 |------|-------|--------|
 | Week 0 | Setup — repo, Python, API key, tools | ✅ Done |
 | Week 1 | Hello Agent — Python basics + FastAPI + deployed URL | ✅ Done |
-| Week 2 | Claude API deep dive + Pydantic + error handling | ⏳ Upcoming |
+| Week 2 | Conversational API · Streaming · Pydantic models | 🔨 In progress |
 | Week 3 | OpenAI API + clean deployment to Render | ⏳ Upcoming |
 | Week 4 | Embeddings + vector stores + first RAG | ⏳ Upcoming |
 | Week 5 | Tool use + agents (raw) + LangGraph | ⏳ Upcoming |
@@ -168,15 +168,14 @@ fde-journey/
 
 ## What's live
 
-| Project | URL | Stack |
-|---------|-----|-------|
-| Week 1 — Hello Agent | https://fde-journey-week1.onrender.com | FastAPI · Pydantic · Anthropic API |
+| Project | Stack | Status |
+|---------|-------|--------|
+| Week 1 — Hello Agent | FastAPI · Pydantic · Anthropic API | See repo to run locally |
 
-Test it:
+To run locally:
 ```bash
-curl -X POST https://fde-journey-week1.onrender.com/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is an FDE?"}'
+cd week1
+uvicorn script9_fastapi:app --reload
 ```
 
 ---
@@ -192,3 +191,17 @@ curl -X POST https://fde-journey-week1.onrender.com/ask \
 
 Fork this repo. Start from Week 0.
 The only rule that matters: understand every line you commit.
+
+---
+
+## Set up your own AI mentor
+
+Want a strict AI mentor to guide your own FDE transition?
+
+1. Download `fde-mentor-context.md` from this repo
+2. Go to claude.ai → Projects → New Project
+3. Upload the file as a knowledge file
+4. Paste the instructions block into Project Instructions
+5. Start a new chat and paste your learnings.md
+
+The mentor will hold you accountable the same way it holds me.

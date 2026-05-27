@@ -123,11 +123,10 @@ do, and why the three dots?
 
 ## Deployment
 
-Live on Render: https://fde-journey-week1.onrender.com
+Deployed and tested on Render (now suspended to avoid token exposure).
+To run locally:
 
-Test with:
 ```bash
-curl -X POST https://fde-journey-week1.onrender.com/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is FastAPI?"}'
+cd week1
+uvicorn script9_fastapi:app --reload
 ```
