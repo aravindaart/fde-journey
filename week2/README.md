@@ -180,3 +180,63 @@ curl -X POST http://localhost:8000/chat \
     ]
   }'
 ```
+
+---
+
+### script13_tool_use.py
+
+Extends previous scripts with Claude tool calling. When Claude responds with `stop_reason="tool_use"`,
+the backend executes the requested tool, then sends the tool result back in a second API call 
+so Claude can continue the response.
+
+This is the tool-use *primitive* — single tool, two-turn flow. The agent loop (multi-step, multi-tool) is script 14.
+
+**Key question:** Does Claude execute tools itself?
+**Answer:** No. Claude only REQUESTS tool use. Backend owns execution, validation, and all real-world side effects.
+
+**Key question:** Why is a second API call needed?
+**Answer:** The first call pauses at the tool request. The second call continues the conversation after the backend sends the `tool_result` back to Claude.
+
+**Key question:** Why include the full message history again?
+**Answer:** Anthropic APIs are stateless. Every request must include the complete conversation state — user message, assistant tool request, and tool result.
+
+---
+
+## How to run
+
+```bash
+uvicorn script13_tool_use:app --reload
+```
+
+## Test with
+
+Normal message (no tool use):
+
+```bash
+curl -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Hello!"
+  }'
+```
+output
+
+```json
+{"answer":"Hello! I'm doing well...","input_tokens":556,"output_tokens":35,"stop_reason":"end_turn"}
+```
+
+Trigger tool use:
+
+```bash
+curl -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "What time is it right now?"
+  }'
+```
+
+output
+
+```json
+{"answer":"The current time is **5:52 PM (17:52)** on **May 27, 2026** (UTC).","input_tokens":621,"output_tokens":32,"stop_reason":"end_turn"}
+```
