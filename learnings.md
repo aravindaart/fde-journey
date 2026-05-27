@@ -82,3 +82,7 @@
 - 2026-05-25: StreamingResponse wraps a generator. FastAPI pulls one chunk at a time and sends it to the client immediately. The client receives tokens as they arrive, not after the full response is ready.
 - 2026-05-25: Streaming endpoints do not use response_model. response_model validates a complete object — streaming has no complete object to validate.
 - 2026-05-25: The try/except on a streaming endpoint only catches errors during generator creation, not during iteration. The actual Claude API call happens when FastAPI iterates the generator — after the return statement. Errors mid-stream are a production hardening problem.
+- 2026-05-27: Context window is the total token budget for one API call — system prompt plus all messages plus the response must fit inside it. It is not just conversation history.
+- 2026-05-27: Sliding window is the simplest context management strategy — keep only the last N messages, drop the oldest. Drop in pairs (user + assistant) to preserve the strict alternating order Claude requires.
+- 2026-05-27: Python slice messages[-n:] returns the last n items. If n exceeds the list length, Python returns the whole list — no error, no guard needed.
+- 2026-05-27: input_tokens in the response is a direct measure of context size. Use it to verify trimming is working — send a long history and watch the token count stay bounded.
