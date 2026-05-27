@@ -110,3 +110,73 @@ curl -X POST http://localhost:8000/ask-stream \
   -d '{"question": "Count from 1 to 10 slowly"}' \
   --no-buffer
 ```
+
+Deployed and tested on Render. Streaming confirmed working on live endpoint.
+
+---
+
+
+### script12_context.py
+
+Extends script10 with context window management. After Pydantic validation, 
+the message list is passed through compact_messages before reaching Claude — 
+dropping the oldest messages to keep token usage bounded.
+
+**Key question:** Which end of the messages array do you drop from — the start or the end?
+**Answer:** Drop the oldest messages. You always keep the most recent ones because they're most relevant to the current question.
+
+**Key question:** Where should the trimming happen — on the client before sending, or on the server after receiving? 
+**Answer:** Server-side is non-negotiable. Client trims to avoid sending unnecessary data, server trims as a safety net because you never trust the client.
+
+**Key question:** What would you do if the conversation history is getting too long — what's the simplest strategy to handle it?
+**Answer:** Two strategies exist. Compaction summarises old messages into one — better 
+quality but costs an extra Claude call. Sliding window keeps only the last 
+N messages and drops the oldest — cheap, fast, no extra API call.
+
+---
+
+## How to run
+
+```bash
+uvicorn script12_context:app --reload
+```
+
+## Test with
+
+Quick turn:
+
+```bash
+curl -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "user", "content": "My name is Aravindhan."},
+      {"role": "assistant", "content": "Nice to meet you Aravindhan!"},
+      {"role": "user", "content": "What is my name?"}
+    ]
+  }'
+```
+
+Using compact_message:
+
+```bash
+curl -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {"role": "user", "content": "Message 1"},
+      {"role": "assistant", "content": "Response 1"},
+      {"role": "user", "content": "Message 2"},
+      {"role": "assistant", "content": "Response 2"},
+      {"role": "user", "content": "Message 3"},
+      {"role": "assistant", "content": "Response 3"},
+      {"role": "user", "content": "Message 4"},
+      {"role": "assistant", "content": "Response 4"},
+      {"role": "user", "content": "Message 5"},
+      {"role": "assistant", "content": "Response 5"},
+      {"role": "user", "content": "Message 6"},
+      {"role": "assistant", "content": "Response 6"},
+      {"role": "user", "content": "What was message 1?"}
+    ]
+  }'
+```
