@@ -15,19 +15,19 @@ This file documents my actual execution of the roadmap — starting point, flags
 
 ## My planned flagship
 
-*Phase 3 build target. Currently in Week 2 of foundations — flagship construction starts Week 7.*
+*Phase 3 build target. Currently in Week 2 of foundations — flagship construction starts Week 7. Project name and full details to be added when Phase 3 begins.*
 
-**Bobasaur AI Concierge** — a WhatsApp-based AI ordering and loyalty assistant for a real bubble tea business.
+A WhatsApp-based AI ordering and loyalty assistant for a real small business.
 
 Planned scope:
 
-- RAG over menu, promotions, and FAQ
+- RAG over the business catalog, promotions, and FAQ
 - Tool calls to a loyalty stamp database
 - MCP server exposing loyalty operations
 - Sends structured orders via WhatsApp/email
 - Deployed on GCP Cloud Run
 - Langfuse observability — cost, latency, tool success rate
-- Eval suite measuring hallucination rate on menu items
+- Eval suite measuring hallucination rate on catalog items
 - Production-hardened: tests, CI, error handling, rate limits
 
 This will not be a tutorial chatbot. It will serve real customers.
@@ -36,11 +36,11 @@ This will not be a tutorial chatbot. It will serve real customers.
 
 Evaluated against the [flagship criteria](./README.md#pick-your-own-flagship):
 
-- ✅ Real users — a working bubble tea shop, real menu, real customers
+- ✅ Real users — a working small business with real customers and a defined catalog
 - ✅ Requires RAG + tool use + deployment — all three are core to the design
-- ✅ Measurable — menu hallucination rate is a clean eval surface
-- ✅ Shippable in 3 weeks — scope is locked: WhatsApp interface only, no POS / Swiggy / Zomato integration (those are in `parking-lot.md`)
-- ✅ Showable — owned by family, no NDA, can demo openly
+- ✅ Measurable — catalog hallucination rate is a clean eval surface
+- ✅ Shippable in 3 weeks — scope is locked: WhatsApp interface only, no POS or third-party platform integrations (those are in `parking-lot.md`)
+- ✅ Showable — no NDA, can demo openly
 
 ## Skills I'm building
 
@@ -79,7 +79,7 @@ Evaluated against the [flagship criteria](./README.md#pick-your-own-flagship):
 | Week 4 | Embeddings + vector stores + first RAG | ⏳ Upcoming | — |
 | Week 5 | Tool use + agents (raw) + LangGraph | ⏳ Upcoming | — |
 | Week 6 | Eval engineering + Docker basics | ⏳ Upcoming | — |
-| Week 7 | Flagship start — Bobasaur data + RAG layer | ⏳ Upcoming | — |
+| Week 7 | Flagship start — business data ingestion + RAG layer | ⏳ Upcoming | — |
 | Week 8 | Flagship build — tool calls + MCP server + GCP deploy | ⏳ Upcoming | — |
 | Week 9 | Flagship polish — Langfuse + evals + production hardening + case study | ⏳ Upcoming | — |
 | Week 10 | Engineering write-up — trade-offs, eval results, what broke | ⏳ Upcoming | — |
@@ -104,11 +104,7 @@ The full unfiltered log is in [`learnings.md`](./learnings.md). A few of the sha
 
 ## What's live
 
-| Project | Week | Stack | Link |
-|---------|------|-------|------|
-| Hello Agent | 1 | FastAPI · Pydantic · Anthropic API | <!-- TODO: paste Render URL --> |
-
-More live links added as I deploy.
+*Live links added as projects are deployed.*
 
 To run locally:
 ```bash
