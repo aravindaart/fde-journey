@@ -1,208 +1,129 @@
-# From Frontend to Forward Deployed Engineer
-### A 12-week public learning journal by Aravindhan Mohan
+# Senior Engineer → AI Engineer in 12 Weeks
 
-> "FDE roles sit at the intersection of software engineering,
-> product thinking, and customer consulting. This repo documents
-> my real transition — week by week, commit by commit."
+*A public roadmap and ground rules for senior engineers rebuilding their foundations in AI engineering — without vibe coding.*
 
----
+A 12-week structure for going from "I've shipped a lot of production code with AI assistance" to "I can build, deploy, and defend an AI system end to end." Fork it, follow it, adapt it.
+
+## Why this exists
+
+If you're a senior engineer using Claude, ChatGPT, or Copilot every day, you've probably noticed the same thing: you're shipping code you can't always defend line by line. That's fine for CRUD apps. It is not fine for LLM systems, where the gap between "looks right" and "is right" is huge and silent.
+
+This roadmap is for closing that gap on purpose, in public, with a real shipped project at the end.
+
+**The one rule that matters: if you can't explain a line, rewrite it until you can.**
 
 ## Who this is for
 
-If you're a senior engineer with strong fundamentals but
-zero hands-on AI experience, this roadmap is for you.
+- Senior engineers (5+ years) with strong fundamentals in any stack
+- People who've used AI tools heavily and noticed the comprehension gap
+- People who want to add AI engineering as a vertical, not pivot from scratch
+- People willing to commit to ~10 hours/week for 12 weeks
 
-This is NOT a tutorial collection. This is a real journey
-with real gaps, real mistakes, and real shipped projects.
-Validated against live FDE job postings at OpenAI, Anthropic,
-Arize AI, Google Cloud, Singtel, and Taxbit Singapore (May 2026).
-
----
-
-## My starting point (May 2026)
-
-- 10+ years frontend engineering (React, TypeScript, Redux)
-- Principal consultant embedded at a large financial institution
-- Python: can read, never written from scratch
-- LLM APIs: never called one in code
-- Deployed AI apps: zero
-
-If that sounds like you — follow along.
-
----
+This is **not** for:
+- Beginners learning programming (the roadmap assumes you already know how to ship)
+- People looking for a tutorial collection (this is structure, not lessons)
+- People who want certificates (build a flagship and ship it — that's the certificate)
 
 ## The 12-week roadmap
 
-| Phase | Weeks | Focus | Key Output |
-|-------|-------|-------|------------|
-| 1 — Foundations | 1–3 | Python · Pydantic · FastAPI · First LLM API call | Deployed "Hello Agent" at a public URL |
-| 2 — Applied AI | 4–6 | RAG · LangGraph · Evals · Docker | RAG demo + eval blog post + Dockerised app |
-| 3 — Flagship | 7–9 | Full AI agent · MCP server · GCP · Observability | Bobasaur AI Concierge — live demo + case study |
-| 4 — Job Sprint | 10–12 | Engineering write-up · Resume · 20+ applications | First FDE interview booked |
+| Phase | Weeks | Focus | What you ship |
+|-------|-------|-------|---------------|
+| 1 — Foundations | 1–3 | Language fundamentals · Typed data models · Web framework · First LLM API call | A deployed "Hello Agent" at a public URL |
+| 2 — Applied AI | 4–6 | RAG · Agents · Evals · Containerisation | A RAG demo + eval results + Dockerised app |
+| 3 — Flagship | 7–9 | Full AI system · Tool use · Deployment · Observability | Your flagship project — live, with users |
+| 4 — Wrap | 10–12 | Engineering write-up · Portfolio polish · Reflection | Portfolio ready to share |
 
----
+Each phase builds the layer below. Skip a phase and the next one collapses.
 
-## What the flagship project is
+## Ground rules
 
-**Bobasaur AI Concierge** — a WhatsApp-based AI ordering and
-loyalty assistant for a real bubble tea business.
+1. **No vibe coding.** Every line you commit, you can explain. If you can't, rewrite it.
+2. **Ship over perfect.** Ugly working code beats elegant unfinished code. Always.
+3. **Public accountability.** Weekly update somewhere public (LinkedIn, blog, X). No quiet weeks.
+4. **Parking lot for distractions.** New project ideas go in `parking-lot.md`, not into the plan. The plan is the plan.
+5. **Keep a learnings log.** Real, unfiltered notes after every session. This is the most valuable artifact you'll produce — not the code. See [an example](https://github.com/aravindaart/fde-journey/blob/main/learnings.md).
+6. **Understand before moving on.** If a concept doesn't click, stop and stay there. Speed comes from depth, not skipping.
 
-- RAG over menu, promotions, and FAQ
-- Tool calls to a loyalty stamp database
-- MCP server exposing loyalty operations
-- Sends structured orders via WhatsApp/email
-- Deployed on GCP Cloud Run
-- Langfuse observability — cost, latency, tool success rate
-- Eval suite measuring hallucination rate on menu items
-- Production hardened: tests, CI, error handling, rate limits
+## Pick your own flagship
 
-This is not a tutorial chatbot. It serves real customers.
+Your Phase 3 flagship is the whole point of the roadmap. Everything in Phases 1 and 2 exists to make this project possible.
 
----
+**What makes a good flagship:**
 
-## Validated skill checklist
+- **Real users.** Not a demo with synthetic data. Someone, somewhere, will actually use it.
+- **Requires at least:** RAG + tool use + deployment. If it's only one of those, it's too small.
+- **Measurable.** You can write evals that tell you whether it's working.
+- **Shippable in 3 weeks** of focused work. Bigger than that and you'll spend Phase 4 still building instead of job hunting.
+- **Showable in an interview.** No NDA, no licensing issues, no "I can't show you the code."
 
-Cross-referenced against live Singapore FDE job postings
-(OpenAI, Anthropic, Arize AI, Google Cloud, Singtel — May 2026):
+**Patterns that work:**
 
-| Skill | Required by | Status |
-|-------|-------------|--------|
-| Python | All postings | 🔨 Phase 1 |
-| Pydantic (typed Python) | OpenAI, Anthropic | 🔨 Phase 1 Week 2 |
-| FastAPI / Backend | All postings | 🔨 Phase 1 |
-| LLM API (Anthropic + OpenAI) | All postings | 🔨 Phase 1 |
-| RAG architecture | All postings | 🔨 Phase 2 |
-| Tool use / Agents | All postings | 🔨 Phase 2 |
-| LangGraph | Market standard 2026 | 🔨 Phase 2 Week 5 |
-| Eval engineering | All postings | 🔨 Phase 2 Week 6 |
-| Docker basics | Arize + Google | 🔨 Phase 2 Week 6 |
-| MCP server | Anthropic explicitly | 🔨 Phase 3 Week 8 |
-| GCP Cloud Run | Google + Arize | 🔨 Phase 3 Week 8 |
-| Langfuse observability | OpenAI, Anthropic | 🔨 Phase 3 Week 9 |
-| Production hardening | OpenAI explicitly | 🔨 Phase 3 Week 9 |
-| TypeScript | Arize AI | ✅ Already have |
-| Customer-facing delivery | All postings | ✅ Already have |
-| Banking / regulated domain | Addepar, Palantir | ✅ Already have |
-| Enterprise integration (SSO/OIDC) | OpenAI, Anthropic | ✅ Already have |
+- An AI assistant for a small business in your network (cousin's restaurant, friend's clinic, your own side project)
+- An internal tool for your current team that wouldn't get prioritised otherwise
+- An AI layer on top of an existing project you own
+- A specialised assistant for a hobby or community you're part of
 
----
+**Patterns that don't:**
 
-## Ground rules I set for myself
+- Yet another generic chatbot with no specific domain
+- A "platform" that does ten things shallowly
+- Anything that depends on third-party data you don't have access to yet
+- Projects you'll lose interest in by Week 9 (be honest with yourself about this)
 
-1. **No vibe coding.** Every line I commit, I can explain.
-2. **Ship over perfect.** Ugly working code beats elegant
-   unfinished code.
-3. **Public accountability.** Weekly LinkedIn updates.
-   No quiet weeks.
-4. **Parking lot for distractions.** New ideas go in
-   `parking-lot.md`, not into the plan.
-5. **Understand before moving on.** If I can't explain it,
-   I delete it and write it again.
-
----
-
-## Weekly logs
-
-| Week | Theme | Status |
-|------|-------|--------|
-| Week 0 | Setup — repo, Python, API key, tools | ✅ Done |
-| Week 1 | Hello Agent — Python basics + FastAPI + deployed URL | ✅ Done |
-| Week 2 | Conversational API · Streaming · Pydantic models | 🔨 In progress |
-| Week 3 | OpenAI API + clean deployment to Render | ⏳ Upcoming |
-| Week 4 | Embeddings + vector stores + first RAG | ⏳ Upcoming |
-| Week 5 | Tool use + agents (raw) + LangGraph | ⏳ Upcoming |
-| Week 6 | Eval engineering + Docker basics | ⏳ Upcoming |
-| Week 7 | Flagship start — Bobasaur data + RAG layer | ⏳ Upcoming |
-| Week 8 | Flagship build — tool calls + MCP server + GCP deploy | ⏳ Upcoming |
-| Week 9 | Flagship polish — Langfuse + evals + production hardening + case study | ⏳ Upcoming |
-| Week 10 | Engineering write-up — trade-offs, eval results, what broke | ⏳ Upcoming |
-| Week 11 | Second project (MAS Banking RAG) if time + resume reframe | ⏳ Upcoming |
-| Week 12 | Job sprint — 20+ applications + referrals | ⏳ Upcoming |
-
----
-
-## Target companies (Singapore + APAC)
-
-| Tier | Company | Why it fits |
-|------|---------|-------------|
-| A | Singtel FDE | Local enterprise, consulting background converts directly |
-| A | **Arize AI** ⭐ | Singapore FDE open, 2–5 yrs exp, RAG + evals exact match |
-| A | Databricks SG | Enterprise AI, strong fit |
-| A | Genesys SG | Enterprise CX/AI, less competitive |
-| B | ByteDance / BytePlus | High FDE volume in SG |
-| B | Cohere SG | Agent-focused, matches Concierge story |
-| B | BCG X Singapore | Hires consultant-engineers |
-| B | Addepar SG | Financial services FDE, banking domain match |
-| C | OpenAI Singapore | High bar (5+ yrs LLM), apply for interview reps |
-| C | Anthropic SG | High bar, founding-team energy |
-| C | Palantir Singapore | Original FDE company |
-
----
+Pick the flagship in Week 1. Don't wait until Phase 3. Knowing the destination shapes every script you write before then.
 
 ## Stack
 
-Python · Pydantic · FastAPI · Anthropic Claude API · OpenAI API
-LangGraph · ChromaDB · Docker · GCP Cloud Run · Langfuse · MCP
-GitHub · VS Code
+This is an opinionated stack. Swap as you like, but pick something and commit by Week 1 — don't rotate stacks mid-roadmap.
 
----
+**Phase 1:** Python · Pydantic · FastAPI · Anthropic or OpenAI SDK
+**Phase 2:** A vector DB (ChromaDB / pgvector / Pinecone) · LangGraph or raw orchestration · Docker
+**Phase 3:** A cloud platform (Render / GCP Cloud Run / Fly.io) · An observability tool (Langfuse / Helicone / LangSmith) · MCP if relevant to your flagship
 
-## Repo structure
+Why Python: every LLM SDK ships Python first. Why FastAPI: Pydantic-native, type-driven, the cleanest fit for LLM APIs. Why an opinionated stack: optionality is paralysing in Week 1.
+
+## Set up your own AI mentor
+
+The roadmap works much better with a structured mentor system than with ad-hoc help.
+
+**The setup:**
+
+- **Daily doubts thread** — your debugging companion. Any LLM, fresh chat per topic. Burn it down weekly.
+- **Weekly main mentor thread** — Sunday check-in. Tracks progress, calls out gaps, evolves the roadmap. Keep this thread alive for the full 12 weeks.
+
+A mentor context file with full instructions and prompts is available [here](./fde-mentor-context.md). Download, fill in your details, paste into your LLM of choice.
+
+## A real example
+
+Someone is running this roadmap right now, in public, with full commit history and weekly updates. If you want to see what week-by-week execution actually looks like:
+
+→ [JOURNEY.md](./JOURNEY.md) — one person's specific run of this roadmap, with their flagship, their target companies, and their weekly status.
+
+## Planned repo structure
 
 ```
-fde-journey/
-├── week1/          # Python warmups + Hello Agent
-├── week2/          # Claude API + Pydantic
-├── week3/          # OpenAI + Render deployment
-├── week4/          # RAG demo
-├── week5/          # Tool use + LangGraph agents
+your-fde-journey/
+├── week1/          # Foundations — language + first LLM call
+├── week2/          # Web framework + typed data + streaming
+├── week3/          # Second LLM provider + clean deploy
+├── week4/          # Embeddings + vector store + first RAG
+├── week5/          # Tool use + agents
 ├── week6/          # Evals + Docker
-├── week7-9/        # Bobasaur AI Concierge (flagship)
-├── week10-11/      # Engineering write-up + second project
-├── learnings.md    # Real unfiltered weekly notes
+├── week7-9/        # YOUR FLAGSHIP project
+├── week10-11/      # Engineering write-up + resume work
+├── learnings.md    # Real unfiltered notes — the single most valuable file
 ├── parking-lot.md  # Deferred ideas
 └── README.md       # This file
 ```
 
----
+Create folders as you get to them. Don't pre-create Week 5 in Week 1.
 
-## What's live
+## Fork and start
 
-| Project | Stack | Status |
-|---------|-------|--------|
-| Week 1 — Hello Agent | FastAPI · Pydantic · Anthropic API | See repo to run locally |
+1. Fork this repo
+2. Pick your flagship (Week 0)
+3. Set up your mentor system
+4. Start Week 1
+5. Post your first weekly update by Sunday
 
-To run locally:
-```bash
-cd week1
-uvicorn script9_fastapi:app --reload
-```
-
----
-
-## Follow the journey
-
-- LinkedIn: [aravindaart](https://www.linkedin.com/in/aravindaart/)
-- Weekly updates posted every Sunday
-
----
-
-## Want to follow this roadmap yourself?
-
-Fork this repo. Start from Week 0.
 The only rule that matters: understand every line you commit.
-
----
-
-## Set up your own AI mentor
-
-Want the same strict AI mentor system I'm using?
-
-Download `fde-mentor-context.md` from this repo and follow the 4 steps inside:
-
-1. Set up your daily doubts thread (Claude / ChatGPT / Gemini / any LLM)
-2. Set up your weekly main mentor thread
-3. Paste the mentor instructions into your AI tool
-4. Fill in your details and start
-
-Works with any AI tool. Free to use. Fork and adapt as you like.
