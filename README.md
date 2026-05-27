@@ -196,12 +196,13 @@ The only rule that matters: understand every line you commit.
 
 ## Set up your own AI mentor
 
-Want a strict AI mentor to guide your own FDE transition?
+Want the same strict AI mentor system I'm using?
 
-1. Download `fde-mentor-context.md` from this repo
-2. Go to claude.ai → Projects → New Project
-3. Upload the file as a knowledge file
-4. Paste the instructions block into Project Instructions
-5. Start a new chat and paste your learnings.md
+Download `fde-mentor-context.md` from this repo and follow the 4 steps inside:
 
-The mentor will hold you accountable the same way it holds me.
+1. Set up your daily doubts thread (Claude / ChatGPT / Gemini / any LLM)
+2. Set up your weekly main mentor thread
+3. Paste the mentor instructions into your AI tool
+4. Fill in your details and start
+
+Works with any AI tool. Free to use. Fork and adapt as you like.
