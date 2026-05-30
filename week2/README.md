@@ -240,3 +240,64 @@ output
 ```json
 {"answer":"The current time is **5:52 PM (17:52)** on **May 27, 2026** (UTC).","input_tokens":621,"output_tokens":32,"stop_reason":"end_turn"}
 ```
+
+---
+
+### script14_agent_loop.py
+
+Extends script13 with multi-tool agent loops. Claude can now call multiple tools across multiple iterations until it reaches a final answer or hits the iteration cap. Tool execution is handled dynamically using a tool dispatch dictionary instead of hardcoded if/elif chains.
+
+Script 13 was the tool-use primitive — single tool, hardcoded two turns. This is the agent loop — Claude drives a multi-step process, chaining tool calls until it has enough to answer.
+
+**Key question:** Should we break the loop if `stop_reason="end_turn"`
+**Answer:** Breaking on end_turn specifically would force us to add separate handlers for every other stop_reason (max_tokens, pause_turn, etc.). Breaking on != "tool_use" covers all non-tool exits in one condition.
+
+**Key question:** Why does the second tool need a real input_schema?
+**Answer:** Claude uses the schema to know which kwargs to generate. The schema defines argument names, types, and required fields so func(**tool_input) works correctly.
+
+**Key question:** Why use a tools_dict instead of multiple if tool_name == ... checks?
+**Answer:** A dispatch dictionary scales cleanly as tools grow. tools_dict[tool_name](**tool_input) dynamically selects and executes the correct function.
+
+**Key question:** Why is `max_iterations` non-negotiable?
+**Answer:** The loop trusts Claude to eventually emit end_turn. A buggy tool result, a model misfire, or an unfortunate prompt can cause Claude to keep requesting tools indefinitely. The cap converts a runaway loop into a controlled failure — surface the error honestly rather than burning tokens silently.
+
+---
+
+## How to run
+
+```bash
+uvicorn script14_agent_loop:app --reload
+```
+
+## Test with
+
+Normal message (no tool use):
+
+```bash
+curl -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Hello!"
+  }'
+```
+output
+
+```json
+{"answer":"Hello! 👋 How can I help you today? I have access to some time-related tools if you need to:\n\n- Get the current time\n- Add minutes to a specific datetime\n\nFeel free to ask me anything!","input_tokens":642,"output_tokens":52,"stop_reason":"end_turn"}
+```
+
+Trigger tool use:
+
+```bash
+curl -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "What time is it right now? Then add 30 minutes to it."
+  }'
+```
+
+output
+
+```json
+{"answer":"**Current time:** 2026-05-31T07:32:48.881294 (7:32 AM and 48 seconds)\n\n**Time + 30 minutes:** 2026-05-31T08:02:48.881294 (8:02 AM and 48 seconds)","input_tokens":864,"output_tokens":74,"stop_reason":"end_turn"}
+```
