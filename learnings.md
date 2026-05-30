@@ -95,3 +95,11 @@
 - 2026-05-27: `message.content` is a list of structured blocks (`text`, `tool_use`, etc.), not just plain text. Tool calls include metadata like `id`, `name`, and `input`.
 - 2026-05-27: Tool execution is fully controlled by the backend. The LLM can REQUEST tools, but only your server can safely execute functions, APIs, databases, or external actions.
 - 2026-05-27: Tool results must be sent back using a `tool_result` block with the original `tool_use_id`. Since the API is stateless, the second request must include the full conversation history.
+- 2026-05-28: The loop is what makes it agentic. Script 13 was the primitive; the while loop turns it into an agent that drives its own multi-step process. Claude passes one tool's output as the next tool's input by itself — the loop enables data flow between tools that a hardcoded flow can't do.
+- 2026-05-28: Before reusing a line from a previous script, check that the data shape matches. .model_dump() works on Pydantic models; plain dicts don't have it. Same trap as carrying compact_messages from script 12 into script 13. Pattern: when reusing code, ask "is the input here the same type as it was there?"
+- 2026-05-28: JSON Schema properties defines which keyword arguments Claude can generate for a tool. required defines which arguments must always be present.
+- 2026-05-28: func(**tool_input) unpacks a dictionary into keyword arguments. Example: {"minutes": 30} becomes func(minutes=30).
+- 2026-05-28: A dispatch dictionary (tools_dict) is a scalable pattern for tool execution. It maps tool names to Python functions and avoids long if/elif chains.
+- 2026-05-28: datetime.fromisoformat() converts an ISO datetime string into a Python datetime object. timedelta(minutes=30) adds time duration arithmetic cleanly.
+- 2026-05-28: Multi-tool agent loops need an iteration cap to prevent infinite tool-calling loops. Exiting due to max iterations is a controlled failure case, not a successful completion.
+- 2026-05-28: Iteration logging (iteration + stop_reason) is critical for debugging agent behaviour because tool workflows span multiple API calls and state transitions.
