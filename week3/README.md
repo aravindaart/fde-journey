@@ -113,3 +113,31 @@ Output:
 }
 ```
 
+---
+
+### script18_chromadb_intro.py
+
+Introduces ChromaDB as a vector database for semantic search. Instead of manually generating embeddings and calculating cosine similarity, ChromaDB stores documents, generates embeddings internally, and performs similarity search automatically.
+
+**Key question:** Why use a vector database instead of manual cosine similarity code?
+**Answer:** A vector database handles embedding storage, indexing, and similarity search efficiently at scale. Manual cosine similarity works for learning but does not scale to large datasets.
+
+**Key question:** Why does `collection.add()` require IDs?
+**Answer:** IDs uniquely identify documents inside the collection. ChromaDB uses them for updates, retrieval, and deduplication behaviour.
+
+**Key question:** Why does querying use `query_texts` instead of embeddings directly?
+**Answer:** ChromaDB can automatically generate embeddings internally, so you can query using plain text without manually calling the embeddings API yourself.
+
+---
+
+## How to run
+
+```bash
+python script18_chromadb_intro.py
+```
+
+## Expected output
+
+```json 
+{'ids': [['1']], 'embeddings': None, 'documents': [['Mango milk tea with tapioca pearls']], 'uris': None, 'included': ['metadatas', 'documents', 'distances'], 'data': None, 'metadatas': [[{'source': 'menu'}]], 'distances': [[0.6898359060287476]]}
+```
