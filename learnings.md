@@ -132,3 +132,17 @@ dot_product / (magnitude_a * magnitude_b)
 - 2026-05-31: Sorting tuples works lexicographically in Python. (similarity, item) sorts by similarity first because it's the tuple's first value.
 - 2026-05-31: NumPy functions like np.dot() and np.linalg.norm() accept plain Python lists because NumPy automatically converts them internally. For small learning scripts this is fine, but explicit np.array() conversion is clearer and safer in production code.
 2026-05-31: This script is the retrieval core of RAG. In production, pre-compute embeddings for all documents and store them. At query time, embed the question, find the most similar chunks, and send only those to the LLM — not the entire document set.
+- 2026-05-31: A vector database stores embeddings and performs semantic similarity search efficiently without manually computing cosine similarity in application code.
+- 2026-05-31: ChromaDB collections are similar to database tables — they group related documents, embeddings, metadata, and IDs together.
+- 2026-05-31: `collection.add()` stores:
+  * `documents` → raw text
+  * `metadatas` → structured metadata
+  * `ids` → unique document identifiers
+- 2026-05-31: ChromaDB automatically generates embeddings internally when using `query_texts`, removing the need for explicit embedding API calls in simple use cases.
+- 2026-05-31: `n_results=1` limits the similarity search to the single closest matching document.
+- 2026-05-31: ChromaDB matches semantically similar text, not exact keywords. `"I want a mango drink"` can retrieve `"Mango milk tea with tapioca pearls"`.
+- 2026-05-31: ChromaDB document IDs must be unique within a collection. Reusing the same ID updates/replaces existing entries instead of creating duplicates.
+- 2026-05-31: `chromadb.Client()` creates an in-memory database. Data disappears when the script exits because nothing is persisted to disk.
+- 2026-05-31: For persistent storage, use `chromadb.PersistentClient(path="./chroma_db")` so collections survive application restarts.
+- 2026-05-31: Running ingestion repeatedly with the same IDs behaves like an upsert rather than creating duplicate documents. In production, using `collection.upsert()` explicitly makes this intent clearer.
+- 2026-05-31: Embedding models must be consistent across ingestion and query. Vectors from different models (e.g. OpenAI text-embedding-3-small vs ChromaDB's all-MiniLM-L6-v2) live in different vector spaces — comparing them produces meaningless similarity scores.
