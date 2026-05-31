@@ -15,7 +15,7 @@ This file documents my actual execution of the roadmap — starting point, flags
 
 ## My planned flagship
 
-*Phase 3 build target. Currently in Week 2 of foundations — flagship construction starts Week 7. Project name and full details to be added when Phase 3 begins.*
+*Phase 3 build target. Currently in Week 3 of foundations — flagship construction starts Week 7. Project name and full details to be added when Phase 3 begins.*
 
 A WhatsApp-based AI ordering and loyalty assistant for a real small business.
 
@@ -53,9 +53,9 @@ Evaluated against the [flagship criteria](./README.md#pick-your-own-flagship):
 | Streaming responses | ✅ Done (Week 2) |
 | Conversational memory | ✅ Done (Week 2) |
 | Context management (sliding window) | ✅ Done (Week 2) |
-| OpenAI API | ⏳ Phase 1 Week 3 |
+| Tool use / Agents (raw) | ✅ Done (Week 2) |
+| OpenAI API | 🔨 Week 3 |
 | RAG architecture | ⏳ Phase 2 |
-| Tool use / Agents | ⏳ Phase 2 |
 | LangGraph | ⏳ Phase 2 Week 5 |
 | Eval engineering | ⏳ Phase 2 Week 6 |
 | Docker basics | ⏳ Phase 2 Week 6 |
@@ -74,10 +74,10 @@ Evaluated against the [flagship criteria](./README.md#pick-your-own-flagship):
 |------|-------|--------|---------|
 | Week 0 | Setup — repo, Python, API key, tools | ✅ Done | — |
 | Week 1 | Hello Agent — Python basics + FastAPI + deployed URL | ✅ Done | [`week1/`](./week1) |
-| Week 2 | Conversational API · Streaming · Pydantic models · Context management | 🔨 In progress | [`week2/`](./week2) |
-| Week 3 | OpenAI API + clean deployment to Render | ⏳ Upcoming | — |
+| Week 2 | Conversational API · Streaming · Context management · Tool use · Agent loop | ✅ Done | [`week2/`](./week2) |
+| Week 3 | OpenAI API + provider abstraction | 🔨 In progress | — |
 | Week 4 | Embeddings + vector stores + first RAG | ⏳ Upcoming | — |
-| Week 5 | Tool use + agents (raw) + LangGraph | ⏳ Upcoming | — |
+| Week 5 | LangGraph — build raw first, then with framework | ⏳ Upcoming | — |
 | Week 6 | Eval engineering + Docker basics | ⏳ Upcoming | — |
 | Week 7 | Flagship start — business data ingestion + RAG layer | ⏳ Upcoming | — |
 | Week 8 | Flagship build — tool calls + MCP server + GCP deploy | ⏳ Upcoming | — |
@@ -92,15 +92,15 @@ The full unfiltered log is in [`learnings.md`](./learnings.md). A few of the sha
 
 > Worst class of bug: returns wrong data without crashing, erroring, or logging. Truncated LLM output falls into this class. Defensive engineering = surfacing the metadata that lets you detect it.
 
-> Be strict in what you accept. Reject contract violations loudly. Silent conversion hides bugs in the caller's code.
+> Tool execution is fully controlled by the backend. The LLM can request tools, but only your server can safely execute functions, APIs, databases, or external actions.
 
-> In FastAPI, Pydantic models are the single source of truth for the API contract: code, validation, docs, error schemas all derived from one place. No drift between code and docs — they can't disagree.
+> tool_use is not agentic — it's a message type. The agent loop is what's agentic. Anthropic gives you the primitive; your code decides what to do with it.
 
-> Workflows use hardcoded sequences — the developer decides the flow. Agents use model-driven decision-making — the LLM decides what to do next. The distinction is who controls the flow, not how many steps there are.
+> The loop is what makes it agentic. Claude passes one tool's output as the next tool's input by itself — the loop enables data flow between tools that a hardcoded flow can't do.
 
-> Default to the simplest solution. Single LLM call with retrieval is enough for most apps. Agents add latency and cost — only justified when the task needs model-driven decision-making that can't be hardcoded.
+> Multi-tool agent loops need an iteration cap to prevent infinite tool-calling loops. Exiting due to max iterations is a controlled failure case, not a successful completion.
 
-> The messages array is the memory. Stateless server plus client sends full history every request equals conversation with no database. This is how Anthropic and OpenAI APIs actually work.
+> Before reusing code from a previous script, check that the data shape matches. Pattern: when reusing code, ask "is the input here the same type as it was there?"
 
 ## What's live
 
