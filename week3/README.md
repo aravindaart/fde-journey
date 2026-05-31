@@ -2,7 +2,7 @@
 
 ## Scripts
 
-script15_openai_fastapi.py
+### script15_openai_fastapi.py
 
 Ports the earlier Claude FastAPI app to OpenAI's Ask Completions API. The overall architecture stays the same - FastAPI + Pydantic + LLM API - but the SDK shape and response structure differ between Anthropic and OpenAI.
 
@@ -32,3 +32,45 @@ curl -X POST http://localhost:8000/ask \
     "question": "What is FastAPI?"
   }'
 ```
+
+
+### script16_provider_abstraction.py
+
+Combines Anthropic and OpenAI into a single FastAPI app. The API contract stays identical while the backend dynamically switches providers using the LLM_PROVIDER environment variable.
+
+Key question: Why move the provider logic into a separate call_llm() function?
+Answer: It separates provider-specific SDK code from the FastAPI route. The route handles HTTP concerns; call_llm() handles LLM integration logic.
+
+Key question: Why return the same AskResponse shape for both providers?
+Answer: The API contract should stay stable even if the backend provider changes. Clients should not care whether the response came from OpenAI or Anthropic.
+
+Key question: Why use an environment variable for provider selection?
+Answer: Configuration belongs outside code. Switching providers via .env avoids code changes and redeploys for simple infrastructure/config updates.
+
+## How to run
+
+# Anthropic:
+
+```bash
+LLM_PROVIDER=anthropic uvicorn script16_provider_abstraction:app --reload
+```
+
+# OpenAI:
+
+```bash
+LLM_PROVIDER=openai uvicorn script16_provider_abstraction:app --reload
+```
+
+## Test with
+
+Single turn:
+
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "Explain what FastAPI is."
+  }'
+```
+
+
