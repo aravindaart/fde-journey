@@ -103,9 +103,21 @@
 - 2026-05-31: datetime.fromisoformat() converts an ISO datetime string into a Python datetime object. timedelta(minutes=30) adds time duration arithmetic cleanly.
 - 2026-05-31: Multi-tool agent loops need an iteration cap to prevent infinite tool-calling loops. Exiting due to max iterations is a controlled failure case, not a successful completion.
 - 2026-05-31: Iteration logging (iteration + stop_reason) is critical for debugging agent behaviour because tool workflows span multiple API calls and state transitions.
+
+## Week 3
+
 2026-05-31: OpenAI Chat Completions uses a messages array containing explicit roles (system, user, assistant) as the conversation contract.
 2026-05-31: OpenAI responses are nested under choices[0].message.content, unlike Anthropic where text lives inside content[0].text.
 2026-05-31: OpenAI token usage fields are named prompt_tokens and completion_tokens; Anthropic uses input_tokens and output_tokens.
 2026-05-31: OpenAI uses finish_reason while Anthropic uses stop_reason. Same concept — why generation stopped — different naming conventions.
 2026-05-31: SDKs from different providers solve the same problem with different response shapes. Production integrations depend heavily on reading provider docs carefully instead of assuming APIs are interchangeable.
 2026-05-31: OpenAI nests finish_reason inside choices[0] because the API was designed to support n>1 — multiple completions per call, each with its own finish_reason. Anthropic returns one response per call so stop_reason sits at the top level.
+- 2026-05-31: Different LLM providers can expose different SDKs and response shapes while sharing the same external API contract in your application.
+- 2026-05-31: Normalisation is a core backend pattern — provider-specific responses are transformed into one consistent internal response model (AskResponse).
+- 2026-05-31: Environment variables are useful for runtime feature switching. LLM_PROVIDER allows changing behaviour without modifying application code.
+- 2026-05-31: Separating provider logic into call_llm() keeps route handlers thin and focused on HTTP responsibilities instead of business logic.
+- 2026-05-31: OpenAI and Anthropic use different parameter conventions for system prompts:
+OpenAI → system message inside messages[]
+Anthropic → separate system= parameter
+- 2026-05-31: ValueError is appropriate for invalid internal configuration states like unsupported provider names because the failure comes from server configuration, not client input.
+- 2026-05-31: Same prompt, same system prompt, different providers produce different response styles and token counts. Claude returned formatted markdown with 154 output tokens; OpenAI returned a single sentence with 15. Model personality and verbosity vary across providers — this is why evals matter, correctness alone isn't enough to measure.
