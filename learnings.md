@@ -121,3 +121,14 @@ OpenAI → system message inside messages[]
 Anthropic → separate system= parameter
 - 2026-05-31: ValueError is appropriate for invalid internal configuration states like unsupported provider names because the failure comes from server configuration, not client input.
 - 2026-05-31: Same prompt, same system prompt, different providers produce different response styles and token counts. Claude returned formatted markdown with 154 output tokens; OpenAI returned a single sentence with 15. Model personality and verbosity vary across providers — this is why evals matter, correctness alone isn't enough to measure.
+- 2026-05-31: Embeddings convert text into high-dimensional numeric vectors representing semantic meaning.
+- 2026-05-31: Semantic similarity search compares meaning rather than exact words. Similar concepts can match even when phrased differently.
+- 2026-05-31: Cosine similarity measures the angle between two vectors. Values closer to 1 mean higher similarity.
+- 2026-05-31: np.dot(a, b) calculates the dot product between vectors, while np.linalg.norm() calculates vector magnitude.
+- 2026-05-31: Cosine similarity formula: `np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))`
+dot_product / (magnitude_a * magnitude_b)
+- 2026-05-31: OpenAI embeddings API returns embeddings in the same order as the input list. embeddings[0] corresponds to the query because the query was the first input.
+- 2026-05-31: zip(menu, menu_embeddings) iterates two lists together in parallel — pairing each menu item with its corresponding embedding.
+- 2026-05-31: Sorting tuples works lexicographically in Python. (similarity, item) sorts by similarity first because it's the tuple's first value.
+- 2026-05-31: NumPy functions like np.dot() and np.linalg.norm() accept plain Python lists because NumPy automatically converts them internally. For small learning scripts this is fine, but explicit np.array() conversion is clearer and safer in production code.
+2026-05-31: This script is the retrieval core of RAG. In production, pre-compute embeddings for all documents and store them. At query time, embed the question, find the most similar chunks, and send only those to the LLM — not the entire document set.
