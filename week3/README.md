@@ -141,3 +141,42 @@ python script18_chromadb_intro.py
 ```json 
 {'ids': [['1']], 'embeddings': None, 'documents': [['Mango milk tea with tapioca pearls']], 'uris': None, 'included': ['metadatas', 'documents', 'distances'], 'data': None, 'metadatas': [[{'source': 'menu'}]], 'distances': [[0.6898359060287476]]}
 ```
+
+---
+
+### script19_rag_chromadb.py
+
+Builds a complete Retrieval-Augmented Generation (RAG) pipeline using OpenAI embeddings, ChromaDB, and GPT-4o-mini. User questions are converted into embeddings, relevant menu items are retrieved from ChromaDB, and the retrieved context is injected into the final LLM prompt.
+
+**Key question:** Why retrieve documents before calling the LLM?
+**Answer:** Retrieval gives the model relevant external knowledge at request time. The LLM answers using retrieved context instead of relying only on training data.
+
+**Key question:** Why store embeddings in ChromaDB instead of regenerating them every request?
+**Answer:** Embeddings are expensive and mostly static. Precomputing and persisting them makes retrieval fast and efficient.
+
+**Key question:** Why add guardrails like "Answer ONLY using the provided menu context"?
+**Answer:** RAG improves factual grounding, but the LLM can still hallucinate. Explicit instructions reduce the chance of answering outside retrieved context.
+
+---
+
+## How to run
+
+```bash
+uvicorn script19_rag_chromadb:app --reload
+```
+
+## Test with
+
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "Which drinks do not contain dairy?"
+  }'
+```
+
+## Output:
+
+```json 
+{"answer":"The drinks without dairy are Jasmine Green Tea and Lychee Fruit Tea.","input_tokens":118,"output_tokens":14,"stop_reason":"stop"}
+```
