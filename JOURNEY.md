@@ -54,8 +54,9 @@ Evaluated against the [flagship criteria](./README.md#pick-your-own-flagship):
 | Conversational memory | ✅ Done (Week 2) |
 | Context management (sliding window) | ✅ Done (Week 2) |
 | Tool use / Agents (raw) | ✅ Done (Week 2) |
-| OpenAI API | 🔨 Week 3 |
-| RAG architecture | ⏳ Phase 2 |
+| OpenAI API | ✅ Done (Week 3) |
+| Embeddings + vector search | ✅ Done (Week 3) |
+| RAG architecture | 🔨 Week 4 |
 | LangGraph | ⏳ Phase 2 Week 5 |
 | Eval engineering | ⏳ Phase 2 Week 6 |
 | Docker basics | ⏳ Phase 2 Week 6 |
@@ -75,8 +76,8 @@ Evaluated against the [flagship criteria](./README.md#pick-your-own-flagship):
 | Week 0 | Setup — repo, Python, API key, tools | ✅ Done | — |
 | Week 1 | Hello Agent — Python basics + FastAPI + deployed URL | ✅ Done | [`week1/`](./week1) |
 | Week 2 | Conversational API · Streaming · Context management · Tool use · Agent loop | ✅ Done | [`week2/`](./week2) |
-| Week 3 | OpenAI API + provider abstraction | 🔨 In progress | — |
-| Week 4 | Embeddings + vector stores + first RAG | ⏳ Upcoming | — |
+| Week 3 | OpenAI API + provider abstraction + embeddings + ChromaDB | ✅ Done | [`week3/`](./week3) |
+| Week 4 | RAG pipeline — ChromaDB + LLM answer generation | 🔨 In progress | — |
 | Week 5 | LangGraph — build raw first, then with framework | ⏳ Upcoming | — |
 | Week 6 | Eval engineering + Docker basics | ⏳ Upcoming | — |
 | Week 7 | Flagship start — business data ingestion + RAG layer | ⏳ Upcoming | — |
@@ -101,6 +102,12 @@ The full unfiltered log is in [`learnings.md`](./learnings.md). A few of the sha
 > Multi-tool agent loops need an iteration cap to prevent infinite tool-calling loops. Exiting due to max iterations is a controlled failure case, not a successful completion.
 
 > Before reusing code from a previous script, check that the data shape matches. Pattern: when reusing code, ask "is the input here the same type as it was there?"
+
+> Different LLM providers solve the same problem with different response shapes. Production integrations depend on reading provider docs carefully — never assume APIs are interchangeable.
+
+> Embeddings convert text into high-dimensional vectors. Similar meaning = similar direction in vector space. Cosine similarity measures the angle, not the distance.
+
+> This is the retrieval core of RAG. Pre-compute embeddings for all documents, store them. At query time, embed the question, find the most similar chunks, send only those to the LLM.
 
 ## What's live
 
