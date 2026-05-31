@@ -103,3 +103,9 @@
 - 2026-05-31: datetime.fromisoformat() converts an ISO datetime string into a Python datetime object. timedelta(minutes=30) adds time duration arithmetic cleanly.
 - 2026-05-31: Multi-tool agent loops need an iteration cap to prevent infinite tool-calling loops. Exiting due to max iterations is a controlled failure case, not a successful completion.
 - 2026-05-31: Iteration logging (iteration + stop_reason) is critical for debugging agent behaviour because tool workflows span multiple API calls and state transitions.
+2026-05-31: OpenAI Chat Completions uses a messages array containing explicit roles (system, user, assistant) as the conversation contract.
+2026-05-31: OpenAI responses are nested under choices[0].message.content, unlike Anthropic where text lives inside content[0].text.
+2026-05-31: OpenAI token usage fields are named prompt_tokens and completion_tokens; Anthropic uses input_tokens and output_tokens.
+2026-05-31: OpenAI uses finish_reason while Anthropic uses stop_reason. Same concept — why generation stopped — different naming conventions.
+2026-05-31: SDKs from different providers solve the same problem with different response shapes. Production integrations depend heavily on reading provider docs carefully instead of assuming APIs are interchangeable.
+2026-05-31: OpenAI nests finish_reason inside choices[0] because the API was designed to support n>1 — multiple completions per call, each with its own finish_reason. Anthropic returns one response per call so stop_reason sits at the top level.
