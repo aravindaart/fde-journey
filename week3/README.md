@@ -74,3 +74,42 @@ curl -X POST http://localhost:8000/ask \
 ```
 
 
+### script17_embeddings.py
+
+Introduces embeddings and semantic similarity search using OpenAI embeddings. Instead of keyword matching, the app converts text into vectors and compares meaning mathematically using cosine similarity.
+
+Key question: Why use embeddings instead of string matching?
+Answer: Embeddings capture semantic meaning, not exact words. "Mango drink with pearls" can match "Mango milk tea with tapioca pearls" even though the wording differs.
+
+Key question: Why calculate cosine similarity?
+Answer: Cosine similarity measures how close two vectors point in the same direction. Higher similarity means the texts are semantically more related.
+
+Key question: Why request embeddings for [query] + menu in one API call?
+Answer: Batch requests are more efficient than separate API calls. One network request generates embeddings for both the query and all menu items together.
+
+## How to run
+
+# OpenAI:
+
+```bash
+uvicorn script17_embeddings:app --reload
+```
+
+## Test with
+
+```bash
+curl -X POST http://localhost:8000/suggest \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "I want a fruity bubble tea drink"
+  }'
+```
+
+Output:
+
+```json
+{
+  "answer": "Mango milk tea with tapioca pearls"
+}
+```
+
