@@ -2,3 +2,4 @@
 __pycache__/
 *.pyc
 fde-mentor-context-private.md
+.DS_Store
