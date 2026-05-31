@@ -146,3 +146,28 @@ dot_product / (magnitude_a * magnitude_b)
 - 2026-05-31: For persistent storage, use `chromadb.PersistentClient(path="./chroma_db")` so collections survive application restarts.
 - 2026-05-31: Running ingestion repeatedly with the same IDs behaves like an upsert rather than creating duplicate documents. In production, using `collection.upsert()` explicitly makes this intent clearer.
 - 2026-05-31: Embedding models must be consistent across ingestion and query. Vectors from different models (e.g. OpenAI text-embedding-3-small vs ChromaDB's all-MiniLM-L6-v2) live in different vector spaces — comparing them produces meaningless similarity scores.
+- 2026-05-31: RAG (Retrieval-Augmented Generation) combines retrieval systems with LLM generation. Retrieval fetches relevant context first; the LLM answers using that context.
+- 2026-05-31: Embedding ingestion is usually a startup-time operation, not a per-request operation. Static datasets should be embedded once and reused.
+- 2026-05-31: `PersistentClient(path="./chroma_db")` stores vector data on disk so embeddings survive application restarts.
+- 2026-05-31: `collection.count()` can be used as a simple ingestion guard to avoid re-embedding the same dataset every startup.
+- 2026-05-31: In RAG pipelines, retrieval and generation are separate stages:
+  1. Generate embedding for the query
+  2. Retrieve semantically similar documents
+  3. Inject retrieved context into the LLM prompt
+  4. Generate the final answer
+- 2026-05-31: `query_embeddings=[...]` allows querying ChromaDB using precomputed embeddings instead of raw text.
+- 2026-05-31: Retrieval commonly returns multiple chunks (`n_results=3`) because one document may not contain enough context to answer fully.
+- 2026-05-31: Retrieved documents are often concatenated into one context block before sending to the LLM.
+- 2026-05-31: Prompt augmentation is the core idea of RAG — dynamically injecting retrieved external knowledge into the user prompt.
+- 2026-05-31: RAG reduces hallucination risk because the model answers from retrieved context instead of relying purely on parametric memory.
+- 2026-05-31: Even with RAG, the model can still hallucinate or ignore context. Explicit grounding instructions improve reliability but are not perfect guarantees.
+- 2026-05-31: Production RAG systems typically separate:
+  * ingestion pipeline
+  * vector database
+  * retrieval layer
+  * generation layer
+- 2026-05-31: This script uses OpenAI embeddings for retrieval and OpenAI chat completions for generation, but the retrieval layer and generation layer can use different providers independently.
+- 2026-05-31: ChromaDB query results nest documents as a list of lists. 
+  Outer list = one entry per query (supports batched queries). 
+  Inner list = retrieved documents for that query. 
+  Single query pattern: results["documents"][0] gets your result set.
