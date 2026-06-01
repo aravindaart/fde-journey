@@ -120,3 +120,40 @@ python script22_metadata_filtering.py
 * Filtered retrieval keeps results inside the correct document category.
 * Unfiltered retrieval may return semantically related but contextually incorrect chunks.
 * Metadata filtering improves retrieval precision by narrowing the search space.
+
+---
+
+### script23_tool_routing_rag.py
+
+Builds a tool-routed RAG assistant where Claude decides which backend tool to call based on the user's request. The system combines operational tools (`get_order_status`) with metadata-filtered RAG retrieval (`search_knowledge_base`) inside a single agent workflow.
+
+**Key question:** Why split functionality into multiple tools instead of one giant prompt?
+**Answer:** Different tasks require different systems. Operational actions (order lookup) and semantic retrieval (knowledge base search) have different inputs, outputs, and logic.
+
+**Key question:** Why include `doc_type` in the retrieval tool?
+**Answer:** Metadata filtering constrains retrieval to the correct category (`menu`, `policy`, etc.), reducing cross-contamination between unrelated chunks.
+
+**Key question:** Why does Claude sometimes rewrite the user's search query?
+**Answer:** The model acts as a retrieval client and optimises the search query semantically, often generating better retrieval terms than the raw user input.
+
+---
+
+## How to run
+
+```bash
+python script23_tool_routing_rag.py
+```
+
+## Example queries tested
+
+```text
+- What's the status of order 42?
+- What snacks are available?
+- How do reward points expire?
+```
+
+## Expected behaviour
+
+* Order questions route to `get_order_status`
+* Knowledge questions route to `search_knowledge_base`
+* Retrieval is filtered using metadata categories like `menu` and `policy`
