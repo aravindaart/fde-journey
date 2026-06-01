@@ -84,3 +84,39 @@ python script21_rag_failure_modes.py
 **Grounding failure:** The LLM generated a confident answer using its own training knowledge instead of the retrieved context, rather than saying it didn't know.
 
 A stronger system prompt reduced grounding failures but cannot fix retrieval misses.
+
+---
+
+### script22_metadata_filtering.py
+
+Introduces metadata-aware retrieval in ChromaDB. Instead of searching across all chunks equally, documents are tagged by category (`menu`, `policy`, `operations`) and retrieval is filtered using metadata constraints.
+
+**Key question:** Why add metadata to chunks?
+**Answer:** Metadata lets retrieval stay within the correct document category, reducing semantically related but contextually wrong results.
+
+**Key question:** Why can unfiltered retrieval return incorrect chunks even when semantic similarity works?
+**Answer:** Semantic similarity only measures relatedness. A chunk mentioning "snacks" in a loyalty policy can outrank an actual menu chunk because embeddings do not understand business intent or document structure.
+
+**Key question:** Why did filtering fix the reward points retrieval issue from script21?
+**Answer:** The relevant chunks were correctly tagged as `policy`, so retrieval searched only within policy-related chunks instead of the entire document space.
+
+---
+
+## How to run
+
+```bash
+python script22_metadata_filtering.py
+```
+
+## Example queries tested
+
+```text
+- what snacks are available
+- how do reward points expire
+```
+
+## Expected behaviour
+
+* Filtered retrieval keeps results inside the correct document category.
+* Unfiltered retrieval may return semantically related but contextually incorrect chunks.
+* Metadata filtering improves retrieval precision by narrowing the search space.
