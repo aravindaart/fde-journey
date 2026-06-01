@@ -181,3 +181,15 @@ dot_product / (magnitude_a * magnitude_b)
 - 2026-06-01: Character-based chunking can split words mid-token (`"pista"` / `"chio"`). Production systems usually chunk on word, sentence, or paragraph boundaries instead.
 - 2026-06-01: Python slicing `text[i:i+chunk_size]` safely handles end-of-string boundaries without manual checks.
 - 2026-06-01: `start += chunk_size - overlap` moves the sliding window forward while preserving shared context between adjacent chunks.
+- 2026-06-01: RAG systems have two separate failure modes:
+  1. retrieval failure → the correct information was never retrieved
+  2. grounding failure → the LLM ignored or invented beyond retrieved context
+- 2026-06-01: Better prompting can reduce hallucinations but cannot recover information missing from retrieval.
+- 2026-06-01: Retrieval gaps often happen when important sentences are split across chunk boundaries and the relevant chunk is not included in the top-k retrieval results.
+- 2026-06-01: Increasing `n_results` can improve recall because more neighbouring chunks are passed into the final prompt.
+- 2026-06-01: Larger chunk sizes reduce the risk of splitting related information but also increase irrelevant context and token usage.
+- 2026-06-01: Multi-part user questions are especially difficult for naive RAG because different parts of the answer may exist in different chunks.
+- 2026-06-01: Semantic retrieval optimises for similarity, not factual completeness. The retrieved chunk may discuss the topic while still missing the exact answer detail.
+- 2026-06-01: Strong grounding prompts like `"Answer strictly from context"` improve honesty but are not perfect guarantees against hallucination.
+- 2026-06-01: Retrieval quality directly limits generation quality. The LLM cannot reason over information it never received.
+- 2026-06-01: Honest failure is better than fabricated answers in production RAG systems. A system saying `"I don't have that information"` is safer than confident hallucination.
