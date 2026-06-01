@@ -203,3 +203,12 @@ dot_product / (magnitude_a * magnitude_b)
 - 2026-06-01: Cross-contamination happens when semantically similar chunks from unrelated sections appear in retrieval results.
 - 2026-06-01: Proper metadata tagging can fix retrieval failures without changing embeddings, chunking strategy, or prompts.
 - 2026-06-01: `zip(*chunks_with_meta)` is a Python unpacking pattern that separates tuples like `(chunk, metadata)` into two independent lists.
+- 2026-06-01: Tool description quality directly affects tool routing accuracy. Vague tool descriptions increase the chance of incorrect tool selection.
+- 2026-06-01: `tool_result` content must be a string. Lists or structured objects should be normalised before returning results to Claude.
+- 2026-06-01: Claude can generate semantically improved retrieval queries instead of simply copying the user's original wording.
+- 2026-06-01: Metadata-filtered retrieval improves routing quality by constraining semantic search to the correct document category.
+- 2026-06-01: Chunking artifacts appear in real RAG answers when chunks split mid-sentence or mid-word, even if retrieval and routing are otherwise correct.
+- 2026-06-01: Agent systems can combine operational tools and retrieval tools inside the same workflow, allowing one assistant to handle both actions and knowledge lookup.
+- 2026-06-01: Retrieval quality problems become more visible in full pipelines because incomplete chunks directly degrade final generated answers.
+- 2026-06-01: Tool routing and retrieval are separate concerns — correct tool selection does not guarantee correct retrieval quality.
+- 2026-06-01: `message.content[0].text` is safe in an agent loop that only exits when `stop_reason == "end_turn"`. The failure case is exiting the loop before verifying stop reason — Claude's last message could be a `tool_use` block with no `.text`.
