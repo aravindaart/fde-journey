@@ -193,3 +193,13 @@ dot_product / (magnitude_a * magnitude_b)
 - 2026-06-01: Strong grounding prompts like `"Answer strictly from context"` improve honesty but are not perfect guarantees against hallucination.
 - 2026-06-01: Retrieval quality directly limits generation quality. The LLM cannot reason over information it never received.
 - 2026-06-01: Honest failure is better than fabricated answers in production RAG systems. A system saying `"I don't have that information"` is safer than confident hallucination.
+- 2026-06-01: Metadata filtering constrains vector search to a subset of documents, improving retrieval precision.
+- 2026-06-01: ChromaDB supports metadata filters using `where={}` during queries.
+- 2026-06-01: Semantic similarity alone is insufficient for accurate retrieval because related concepts from the wrong document category can contaminate results.
+- 2026-06-01: Retrieval quality improves when embeddings are combined with structured metadata constraints instead of relying only on vector similarity.
+- 2026-06-01: Document tagging is an important RAG design pattern. Separating content into categories like `menu`, `policy`, and `operations` helps retrieval stay contextually relevant.
+- 2026-06-01: Filtering reduces the retrieval search space, which becomes increasingly important as the number of chunks grows.
+- 2026-06-01: `collection.query(where={"type": doc_type})` performs hybrid retrieval — semantic search constrained by structured metadata.
+- 2026-06-01: Cross-contamination happens when semantically similar chunks from unrelated sections appear in retrieval results.
+- 2026-06-01: Proper metadata tagging can fix retrieval failures without changing embeddings, chunking strategy, or prompts.
+- 2026-06-01: `zip(*chunks_with_meta)` is a Python unpacking pattern that separates tuples like `(chunk, metadata)` into two independent lists.
