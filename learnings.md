@@ -171,3 +171,13 @@ dot_product / (magnitude_a * magnitude_b)
   Outer list = one entry per query (supports batched queries). 
   Inner list = retrieved documents for that query. 
   Single query pattern: results["documents"][0] gets your result set.
+
+## Week 4
+
+- 2026-06-01: Chunking splits large documents into smaller pieces before embedding and retrieval.
+- 2026-06-01: Fixed-size chunking is simple but can silently break semantic meaning when related information lands in different chunks.
+- 2026-06-01: Overlapping chunking repeats part of the previous chunk in the next chunk so important context survives chunk boundaries.
+- 2026-06-01: Overlap improves retrieval reliability because at least one chunk is likely to contain the full context needed to answer a query.
+- 2026-06-01: Character-based chunking can split words mid-token (`"pista"` / `"chio"`). Production systems usually chunk on word, sentence, or paragraph boundaries instead.
+- 2026-06-01: Python slicing `text[i:i+chunk_size]` safely handles end-of-string boundaries without manual checks.
+- 2026-06-01: `start += chunk_size - overlap` moves the sliding window forward while preserving shared context between adjacent chunks.
