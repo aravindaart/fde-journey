@@ -212,3 +212,9 @@ dot_product / (magnitude_a * magnitude_b)
 - 2026-06-01: Retrieval quality problems become more visible in full pipelines because incomplete chunks directly degrade final generated answers.
 - 2026-06-01: Tool routing and retrieval are separate concerns — correct tool selection does not guarantee correct retrieval quality.
 - 2026-06-01: `message.content[0].text` is safe in an agent loop that only exits when `stop_reason == "end_turn"`. The failure case is exiting the loop before verifying stop reason — Claude's last message could be a `tool_use` block with no `.text`.
+- 2026-06-08: Evals measure three independent dimensions in a RAG+routing system: (1) retrieval accuracy — did the right chunk come back, (2) grounding accuracy — did the LLM answer from context not memory, (3) routing accuracy — did the right tool get selected. Missing any one gives an incomplete picture.
+- 2026-06-08: An eval test set needs expected answers. Two sources: golden answers written manually for known queries, or LLM-generated answers reviewed and approved. The second is faster but needs human review before trusting.
+- 2026-06-08: LLM-as-Judge scoring: ask a second LLM call to rate the answer on relevance, groundedness, and completeness (1–5 each). This is the production pattern — not string matching against expected answers.
+
+## Week 4 summary
+Scripts 20–23 complete. Chunking, top-k retrieval, metadata filtering, RAG + tool routing. Two RAG failure modes named and understood. Third dimension (routing eval) introduced. Dual-provider pattern confirmed. Week 4 closed. Script 24 (eval harness) is Week 5 task 1.
