@@ -77,7 +77,7 @@ Pick the flagship in Week 1. Don't wait until Phase 3. Knowing the destination s
 This is an opinionated stack. Swap as you like, but pick something and commit by Week 1 — don't rotate stacks mid-roadmap.
 
 **Phase 1:** Python · Pydantic · FastAPI · Anthropic or OpenAI SDK
-**Phase 2:** A vector DB (ChromaDB / pgvector / Pinecone) · LangGraph or raw orchestration · Docker
+**Phase 2:** A vector DB (ChromaDB / pgvector / Pinecone) · An eval framework (RAGAS / LLM-as-Judge) · An observability tool (Langfuse / Arize Phoenix) · LangGraph or raw orchestration · Docker
 **Phase 3:** A cloud platform (Render / GCP Cloud Run / Fly.io) · An observability tool (Langfuse / Helicone / LangSmith) · MCP if relevant to your flagship
 
 Why Python: every LLM SDK ships Python first. Why FastAPI: Pydantic-native, type-driven, the cleanest fit for LLM APIs. Why an opinionated stack: optionality is paralysing in Week 1.
