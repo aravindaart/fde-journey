@@ -56,7 +56,9 @@ Evaluated against the [flagship criteria](./README.md#pick-your-own-flagship):
 | Tool use / Agents (raw) | ✅ Done (Week 2) |
 | OpenAI API | ✅ Done (Week 3) |
 | Embeddings + vector search | ✅ Done (Week 3) |
-| RAG architecture | 🔨 Week 4 |
+| RAG architecture | ✅ Done (Week 4) |
+| Eval engineering (LLM-as-Judge, RAGAS) | 🔨 Week 5 |
+| Observability (Langfuse / Arize Phoenix) | ⏳ Week 5-6 |
 | LangGraph | ⏳ Phase 2 Week 5 |
 | Eval engineering | ⏳ Phase 2 Week 6 |
 | Docker basics | ⏳ Phase 2 Week 6 |
@@ -77,9 +79,9 @@ Evaluated against the [flagship criteria](./README.md#pick-your-own-flagship):
 | Week 1 | Hello Agent — Python basics + FastAPI + deployed URL | ✅ Done | [`week1/`](./week1) |
 | Week 2 | Conversational API · Streaming · Context management · Tool use · Agent loop | ✅ Done | [`week2/`](./week2) |
 | Week 3 | OpenAI API + provider abstraction + embeddings + ChromaDB | ✅ Done | [`week3/`](./week3) |
-| Week 4 | RAG pipeline — ChromaDB + LLM answer generation | 🔨 In progress | — |
-| Week 5 | LangGraph — build raw first, then with framework | ⏳ Upcoming | — |
-| Week 6 | Eval engineering + Docker basics | ⏳ Upcoming | — |
+| Week 4 | RAG hardening — chunking, top-k retrieval, metadata filtering, tool routing | ✅ Done | [`week4/`](./week4) |
+| Week 5 | Evals (LLM-as-Judge + RAGAS) + Observability (Langfuse) + LangGraph | ⏳ Upcoming | — |
+| Week 6 | Docker + flagship prep | ⏳ Upcoming | — |
 | Week 7 | Flagship start — business data ingestion + RAG layer | ⏳ Upcoming | — |
 | Week 8 | Flagship build — tool calls + MCP server + GCP deploy | ⏳ Upcoming | — |
 | Week 9 | Flagship polish — Langfuse + evals + production hardening + case study | ⏳ Upcoming | — |
@@ -109,6 +111,12 @@ The full unfiltered log is in [`learnings.md`](./learnings.md). A few of the sha
 
 > This is the retrieval core of RAG. Pre-compute embeddings for all documents, store them. At query time, embed the question, find the most similar chunks, send only those to the LLM.
 
+> Retrieval quality directly limits generation quality. The LLM cannot reason over information it never received.
+
+> Tool routing and retrieval are separate concerns — correct tool selection does not guarantee correct retrieval quality.
+
+> Evals measure three things independently: retrieval accuracy, grounding accuracy, routing accuracy. Missing any one gives an incomplete picture.
+
 ## What's live
 
 *Live links added as projects are deployed.*
@@ -118,6 +126,16 @@ To run locally:
 cd week1
 uvicorn script9_fastapi:app --reload
 ```
+
+Weeks 1–4 complete. Scripts 1–23 built, understood, committed.
+
+To run locally:
+```bash
+cd week4
+python script23_tool_routing_rag.py
+```
+
+Flagship (Bobasaur AI Concierge) starts Week 7.
 
 ## Follow along
 
