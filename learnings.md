@@ -218,3 +218,8 @@ dot_product / (magnitude_a * magnitude_b)
 
 ## Week 4 summary
 Scripts 20–23 complete. Chunking, top-k retrieval, metadata filtering, RAG + tool routing. Two RAG failure modes named and understood. Third dimension (routing eval) introduced. Dual-provider pattern confirmed. Week 4 closed. Script 24 (eval harness) is Week 5 task 1.
+
+- 2026-06-20: The 2026-06-08 entries above describe planned LLM-as-judge scoring. The eval harness actually built and committed today (script24) uses keyword-based scoring across routing/retrieval/grounding instead — a simpler first pass. LLM-as-judge scoring is a separate follow-up, not yet built.
+- 2026-06-20: assert stops execution on first failure — wrong tool for an eval harness, which must run every test case and report results even when some fail. Boolean scoring (pass/fail flags + counters) replaces assert for eval loops.
+- 2026-06-20: Real script24 run surfaced four findings: chunk_size=200 too aggressive for named-entity retrieval (a specific drink name like "Galactic Pistachio" got split or buried, retrieval missed it); one case showed a routing stall where Claude asked for missing input (customer ID) instead of calling any tool; one test case ("How many points do I have?" with no customer ID) was a flawed test design, not a system failure; the order-status case passed cleanly end to end.
+- 2026-06-20: A test case must be answerable from the data and tools available, with no missing required inputs. An ambiguous test case produces an indeterminate eval result that looks like a system failure but is actually a test design failure.
