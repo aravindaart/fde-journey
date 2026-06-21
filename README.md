@@ -121,9 +121,10 @@ Create folders as you get to them. Don't pre-create Week 5 in Week 1.
 ## Fork and start
 
 1. Fork this repo
-2. Pick your flagship (Week 0)
-3. Set up your mentor system
-4. Start Week 1
-5. Post your first weekly update by Sunday
+2. Create a virtual environment: `python3 -m venv venv && source venv/bin/activate`
+3. Pick your flagship (Week 0)
+4. Set up your mentor system
+5. Start Week 1
+6. Post your first weekly update by Sunday
 
 The only rule that matters: understand every line you commit.
