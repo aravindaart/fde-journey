@@ -4,3 +4,4 @@ __pycache__/
 fde-mentor-context-private.md
 .DS_Store
 chroma_db/
+venv/
