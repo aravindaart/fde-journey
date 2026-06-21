@@ -126,3 +126,60 @@ Grounded Eligible: 2/5
 **Hallucinated success:** The judge scores an answer as grounded and relevant even though it is wrong or unsupported — the eval reports a pass while the underlying answer is actually a failure. More dangerous than a visible failure because nothing in the metrics flags it.
 
 **Judge non-determinism:** Re-running the same test case can produce different verdicts. The Fossil Praline redemption case was judged grounded in one run and not grounded in another, with no change to the underlying code or data — a real limitation of LLM-as-judge versus deterministic keyword matching.
+
+---
+
+### script26_observability.py
+
+Introduces Langfuse tracing into a tool-routed RAG agent. The script instruments LLM calls, retrieval operations, and tool executions, allowing the entire workflow to be visualized as a trace in Langfuse.
+
+**Key question:** Why use Langfuse observability?
+**Answer:** Observability makes it easier to understand how the agent arrives at an answer by showing LLM calls, retrieval operations, tool usage, and execution flow in a single trace.
+
+**Key question:** Why trace retrieval and tools separately?
+**Answer:** Retrieval and tools perform different roles in the agent workflow. Separate spans make it easier to identify whether issues come from retrieval, tool execution, or answer generation.
+
+**Key question:** Why add metadata to tool spans?
+**Answer:** Metadata provides additional execution details such as whether a lookup completed successfully, making debugging and monitoring easier.
+
+---
+
+## How to run
+
+```bash
+python script26_observability.py
+```
+
+## Example queries
+
+```text
+- What's my order status for order #42?
+- What snacks are available?
+- How do reward points expire?
+```
+
+## Expected behaviour
+
+* A trace is created for each user query
+* Claude API calls appear as generation spans
+* Knowledge base searches appear as retriever spans
+* Loyalty point lookups appear as tool spans
+* Order status lookups appear as tool spans
+* Tool spans contain lookup metadata
+
+## Observability captured
+
+```text
+call_llm
+├── call_claude
+├── get_order_status
+└── call_claude
+```
+
+## Engineering findings
+
+**Generation span placement:** Decorators execute once per function call. Because `call_llm()` is invoked once and contains the internal tool loop, a generation decorator on that function cannot create per-iteration generation spans. Moving the generation decorator to `call_claude()` creates one generation span for each Claude API call.
+
+**PII-safe tool tracing:** Tool spans disable automatic input and output capture to avoid recording customer identifiers and lookup results. Operational status is recorded through manually attached span metadata instead.
+
+**Environment compatibility:** Langfuse setup required resolving Python-version and virtual-environment dependency conflicts before instrumentation could be tested successfully.
