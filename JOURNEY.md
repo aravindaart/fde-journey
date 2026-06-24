@@ -57,10 +57,9 @@ Evaluated against the [flagship criteria](./README.md#pick-your-own-flagship):
 | OpenAI API | ✅ Done (Week 3) |
 | Embeddings + vector search | ✅ Done (Week 3) |
 | RAG architecture | ✅ Done (Week 4) |
-| Eval engineering (LLM-as-Judge, RAGAS) | 🔨 Week 5 |
+| Eval engineering (keyword scoring, LLM-as-Judge) | ✅ Done (Week 5) — RAGAS not yet attempted |
 | Observability (Langfuse / Arize Phoenix) | ⏳ Week 5-6 |
 | LangGraph | ⏳ Phase 2 Week 5 |
-| Eval engineering | ⏳ Phase 2 Week 6 |
 | Docker basics | ⏳ Phase 2 Week 6 |
 | MCP server | ⏳ Phase 3 Week 8 |
 | GCP Cloud Run | ⏳ Phase 3 Week 8 |
@@ -80,7 +79,7 @@ Evaluated against the [flagship criteria](./README.md#pick-your-own-flagship):
 | Week 2 | Conversational API · Streaming · Context management · Tool use · Agent loop | ✅ Done | [`week2/`](./week2) |
 | Week 3 | OpenAI API + provider abstraction + embeddings + ChromaDB | ✅ Done | [`week3/`](./week3) |
 | Week 4 | RAG hardening — chunking, top-k retrieval, metadata filtering, tool routing | ✅ Done | [`week4/`](./week4) |
-| Week 5 | Evals (LLM-as-Judge + RAGAS) + Observability (Langfuse) + LangGraph | ⏳ Upcoming | — |
+| Week 5 | Evals (keyword + LLM-as-Judge) + Observability (Langfuse) | 🔨 In progress | [`week5/`](./week5) |
 | Week 6 | Docker + flagship prep | ⏳ Upcoming | — |
 | Week 7 | Flagship start — business data ingestion + RAG layer | ⏳ Upcoming | — |
 | Week 8 | Flagship build — tool calls + MCP server + GCP deploy | ⏳ Upcoming | — |
