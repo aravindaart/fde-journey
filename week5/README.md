@@ -183,3 +183,59 @@ call_llm
 **PII-safe tool tracing:** Tool spans disable automatic input and output capture to avoid recording customer identifiers and lookup results. Operational status is recorded through manually attached span metadata instead.
 
 **Environment compatibility:** Langfuse setup required resolving Python-version and virtual-environment dependency conflicts before instrumentation could be tested successfully.
+
+---
+
+### script27_langgraph.py
+
+Introduces LangGraph by building a simple agent workflow using nodes, edges, and shared state. The script demonstrates how LangGraph manages execution flow while maintaining conversation history across LLM and tool calls.
+
+**Key question:** Why use LangGraph?
+**Answer:** LangGraph simplifies building multi-step AI workflows by managing execution flow, shared state, and routing between nodes instead of requiring custom control logic.
+
+**Key question:** What are nodes, edges, and state?
+**Answer:** Nodes perform work, edges determine the next step, and state stores the shared data passed between nodes.
+
+---
+
+## How to run
+
+```bash
+python script27_langgraph.py
+```
+
+## Example queries
+
+```text
+- What's my order status for order #42?
+- What snacks are available?
+- How do reward points expire?
+```
+
+## Expected behaviour
+
+* A LangGraph workflow executes from start to finish
+* Conversation history is preserved across nodes
+* Tools are called when required
+* The final response is returned after all graph execution completes
+
+## Graph flow
+
+```text
+START
+  │
+  ▼
+call_llm
+  │
+  ├── stop_reason == "tool_use" ──► execute_tools ──► call_llm (loop back)
+  │
+  └── stop_reason == "end_turn" ──► END
+```
+
+## Engineering findings
+
+**Message state:** Without a reducer, LangGraph replaces state fields on each node return. Both `call_llm` and `execute_tools` return the full updated `messages` list — existing history plus the new message appended.
+
+**Naming collisions:** Reusing the name `tools` for both a tool list and a graph node caused Python name shadowing. Using distinct names (for example, `tools_list` and `execute_tools`) avoids this issue.
+
+**State serialization:** Pydantic objects returned in message content needed `model_dump()` before being stored in graph state, ensuring the state remains serializable.
