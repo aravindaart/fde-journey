@@ -241,3 +241,4 @@ Scripts 20–23 complete. Chunking, top-k retrieval, metadata filtering, RAG + t
 - 2026-07-04: Without a reducer, LangGraph replaces the entire state field on every node return. For `messages`, this means each node must return the full updated conversation history, not just the new message — state["messages"] + [new_message].
 - 2026-07-04: Using the same name (`tools`) for both a list and a function caused a naming collision. Clear, unique names prevent shadowing bugs.
 - 2026-07-04: `model_dump()` converts Pydantic models into plain dictionaries so they can be safely stored and serialized in LangGraph state.
+- 2026-07-04: RAGAS not implemented — hand-rolled keyword + LLM-as-judge instead; RAGAS is the standardized library version of the same three dimensions.
