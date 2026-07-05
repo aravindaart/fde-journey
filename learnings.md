@@ -242,3 +242,15 @@ Scripts 20–23 complete. Chunking, top-k retrieval, metadata filtering, RAG + t
 - 2026-07-04: Using the same name (`tools`) for both a list and a function caused a naming collision. Clear, unique names prevent shadowing bugs.
 - 2026-07-04: `model_dump()` converts Pydantic models into plain dictionaries so they can be safely stored and serialized in LangGraph state.
 - 2026-07-04: RAGAS not implemented — hand-rolled keyword + LLM-as-judge instead; RAGAS is the standardized library version of the same three dimensions.
+
+## Week 6
+
+- 2026-07-05: Started with `python:3.12-slim` and no `apt-get` packages. The image built successfully and the application ran without dependency-related import errors, confirming that adding system packages only after an observed failure is preferable to defensive installation.
+- 2026-07-05: Docker layer caching is most effective when `requirements.txt` is copied and dependencies installed before copying application source. Code changes then reuse the cached dependency layer, making rebuilds much faster.
+- 2026-07-05: `.dockerignore` protects future builds by preventing unnecessary files (virtual environments, caches, secrets, Git metadata, etc.) from entering the build context, even if those files are not present today.
+- 2026-07-05: `docker run` has no build context. Paths passed to `--env-file` are resolved relative to the shell's current working directory, unlike `COPY` paths during `docker build`.
+- 2026-07-05: A relative `--env-file` path (for example `../.env`) works only from the directory it was written for. Running the same command from another working directory can point to the wrong file or fail.
+- 2026-07-05: `--env-file` reads a host file once at container startup, so relative paths are sufficient. Bind mounts (`-v`) create a live mapping between the host filesystem and the container, so using an absolute host path avoids ambiguity and is the recommended approach.
+- 2026-07-05: Bind mounts (`-v`) are convenient for local development because changes on the host are immediately visible inside the container. This pattern does not translate to managed container platforms such as Cloud Run, where images should contain everything needed to run.
+- 2026-07-05: `input()` reads from stdin. Running a container without `-i` closes stdin, causing `input()` to raise `EOFError`; `-it` is required for interactive terminal input.
+- 2026-07-05: When troubleshooting Docker commands, verify the command syntax first. Docker treats the first non-flag argument as the image name, so accidentally typing `docker run docker run ...` leads Docker to interpret the second `docker` as the image name, producing misleading errors.
