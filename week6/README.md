@@ -1,4 +1,4 @@
-# Week 5 - Docker (containerize script27) + FLAGSHIP_SPEC.md
+# Week 6 - Docker (containerize script27) + FLAGSHIP_SPEC.md
 
 ### Dockerizing `script27_langgraph.py`
 
@@ -24,12 +24,9 @@ From the `week6/` directory:
 
 ```bash
 docker run -it \
-  -v /absolute/path/to/fde-journey/data/bubble_tea.txt:/app/data/bubble_tea.txt \
   --env-file ../.env \
   week6-langgraph-agent:v1
 ```
-
-> **Note:** The `-v` path is an absolute path on the local machine and is intended for local development. It must be updated for your own machine and is not suitable for deployments such as Cloud Run.
 
 ## Expected behaviour
 
@@ -46,8 +43,10 @@ docker run -it \
 
 **Environment variables:** API keys are supplied at runtime using `--env-file` instead of being stored inside the Docker image.
 
-**Volume mount:** The knowledge base file is mounted into the container using `-v` so the data remains outside the image during local development. This is a local development pattern and would typically be replaced by packaging the data into the image or using external storage for cloud deployments.
+**Application data:** The knowledge base file is stored in `week6/data/` and becomes part of the Docker build context. The `COPY . .` instruction copies it into the image at build time, making the container self-contained without requiring bind mounts. This approach is suitable for deployments such as Cloud Run and Render, where host volume mounts are typically unavailable.
 
 **Interactive execution:** Since the script uses `input()`, the container must be run with `-it` so Python can read user input from the terminal.
+
+**Multiple tool calls:** Claude can emit multiple `tool_use` blocks for a single assistant response when answering compound queries. The tool execution logic collects all `tool_use` blocks, executes each requested tool, and returns one `tool_result` block per tool call inside a single user message, satisfying Anthropic's tool-use protocol.
 
 **Build context:** `.dockerignore` excludes unnecessary files from the build context, keeping the image smaller and preventing unwanted files from being copied into the image.
