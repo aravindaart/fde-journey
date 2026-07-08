@@ -183,30 +183,39 @@ def call_llm(state: AgentState) -> dict:
 def execute_tools(state: AgentState) -> dict:
     last_message = state["messages"][-1]
     # TODO: find the tool_use block in the last assistant message
-    tool_use = next(
+    # Collect all tool_use blocks
+    tool_use_blocks = [
         block
         for block in last_message["content"]
-        if block["type"] == "tool_use" 
-    )
-    
-    # TODO: execute the tool
-    tool_fn = tools_dict.get(tool_use["name"])
-    if tool_fn is None:
-        raise ValueError(f"Unknown tool: {tool_use.name}")
-    result = tool_fn(**tool_use["input"])
+        if block["type"] == "tool_use"
+    ]
 
-    # TODO: build tool_result block
     tool_result_message = {
         "role": "user",
-        "content": [
-            {
-                "type": "tool_result",
-                "tool_use_id": tool_use["id"],
-                "content": str(result),
-            }
-        ],
+        "content": []
     }
-    # TODO: append tool_result message to messages
+
+    
+    
+    # TODO: execute the tool
+    for tool_use in tool_use_blocks:
+        tool_fn = tools_dict.get(tool_use["name"])
+        print(f"Executing tool: {tool_use['name']}")
+
+        if tool_fn is None:
+            raise ValueError(f"Unknown tool: {tool_use['name']}")
+
+        result = tool_fn(**tool_use["input"])
+
+        print(f"Tool result: {result}")
+
+        tool_result_message["content"].append({
+            "type": "tool_result",
+            "tool_use_id": tool_use["id"],
+            "content": str(result),
+        })
+
+
     # TODO: return updated messages and incremented iteration
     return {
         "messages": state["messages"] + [tool_result_message],
