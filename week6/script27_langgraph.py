@@ -5,16 +5,26 @@ from random import randint
 from chromadb import PersistentClient
 from dotenv import load_dotenv
 from anthropic import Anthropic
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
 
 from openai import OpenAI
 from langgraph.graph import StateGraph, START, END
 
 load_dotenv()
+app = FastAPI()
 chroma_client = PersistentClient(path="./chroma_db")
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 anthropic_client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 text = open("data/bubble_tea.txt").read()
 SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT", "You are a helpful assistant for a bubble tea shop. Answer questions based on the provided context and use the tools when necessary.")
+
+class AskRequest(BaseModel):
+    question: str = Field(..., min_length=1, max_length=1000)
+
+
+class AskResponse(BaseModel):
+    answer: str = Field(..., min_length=1)
 
 collection = chroma_client.get_or_create_collection("bubble_tea")
 
@@ -242,12 +252,15 @@ builder.add_edge("execute_tools", "call_llm")
 graph = builder.compile()
 
 # ── Entry point ──────────────────────────────────────────────────────────
-if __name__ == "__main__":
-    query = input("You: ")
+# if __name__ == "__main__":
+@app.post("/ask", response_model=AskResponse)
+def ask(request: AskRequest) -> AskResponse:
+    query = request.question
     initial_state = {
         "messages": [{"role": "user", "content": query}],
         "iteration": 0,
         "stop_reason": ""
     }
     result = graph.invoke(initial_state)
-    print(f"Assistant: {result['messages'][-1]['content'][0]['text']}")
+    return AskResponse(answer=result['messages'][-1]['content'][0]['text'])
+    # print(f"Assistant: {result['messages'][-1]['content'][0]['text']}")

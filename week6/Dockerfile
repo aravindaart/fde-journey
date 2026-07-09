@@ -4,4 +4,4 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
-CMD ["python", "script27_langgraph.py"]
+CMD ["sh", "-c", "uvicorn script27_langgraph:app --host 0.0.0.0 --port $PORT"]
