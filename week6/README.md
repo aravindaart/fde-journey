@@ -50,3 +50,61 @@ docker run -it \
 **Multiple tool calls:** Claude can emit multiple `tool_use` blocks for a single assistant response when answering compound queries. The tool execution logic collects all `tool_use` blocks, executes each requested tool, and returns one `tool_result` block per tool call inside a single user message, satisfying Anthropic's tool-use protocol.
 
 **Build context:** `.dockerignore` excludes unnecessary files from the build context, keeping the image smaller and preventing unwanted files from being copied into the image.
+
+## CLI → FastAPI Conversion
+
+### Why was this changed?
+
+The original application was designed as a command-line program that waited for user input using `input()`. This works well for local development but cannot be deployed as a Render Web Service because Render expects the application to start an HTTP server and listen on the port provided through the `PORT` environment variable.
+
+To make the application deployable, the interactive CLI interface was replaced with a FastAPI endpoint while keeping the LangGraph workflow unchanged.
+
+### What changed?
+
+* Replaced terminal input (`input()`) with a FastAPI `POST /ask` endpoint.
+* Added `AskRequest` and `AskResponse` Pydantic models for request validation and response serialization.
+* Moved the `graph.invoke(initial_state)` call into the route handler.
+* Kept the existing LangGraph workflow, nodes, edges, and state unchanged. Only the method of receiving user input changed.
+* Updated the Docker runtime to start a Uvicorn server instead of executing the Python script directly.
+
+### How to run
+
+Build the Docker image:
+
+```bash
+docker build -t week6-langgraph-agent:v1 .
+```
+
+Run the container:
+
+```bash
+docker run \
+  --env-file ../.env \
+  -e PORT=8000 \
+  -p 8000:8000 \
+  week6-langgraph-agent:v1
+```
+
+The API will be available at:
+
+```
+http://localhost:8000
+```
+
+### Test the API
+
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "What are your signature drinks?"
+  }'
+```
+
+Expected response:
+
+```json
+{
+  "answer": "..."
+}
+```
